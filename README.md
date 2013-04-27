@@ -1,0 +1,4 @@
+bower-facebook
+==============
+
+Facebook module
