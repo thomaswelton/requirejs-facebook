@@ -118,7 +118,7 @@
           return;
         }
         if ($('fb-root').length === 0) {
-          root = $("<div id='fbroot'></div>");
+          root = $("<div id='fb-root'></div>");
           $('body').append(root);
         }
         fbsrc = '//connect.facebook.net/en_US/all.js';
