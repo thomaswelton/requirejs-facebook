@@ -1,4 +1,4 @@
-define ['compiled/modules/EventEmitter', 'module', 'mootools'], (EventEmitter, module) ->
+define ['EventEmitter', 'module', 'mootools'], (EventEmitter, module) ->
 	class Facebook extends EventEmitter
 		constructor: (@config) ->
 			@api = null
