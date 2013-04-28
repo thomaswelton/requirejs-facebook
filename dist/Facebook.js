@@ -112,21 +112,18 @@
       };
 
       Facebook.prototype.injectFB = function() {
-        var script;
+        var fbsrc, root, script;
 
-        console.log($('facebook-jssdk'));
-        if ($('facebook-jssdk')) {
+        if ($('facebook-jssdk').length) {
           return;
         }
-        if (!$('fb-root')) {
-          new Element('div', {
-            id: 'fb-root'
-          }).inject(document.body);
+        if (!$('fb-root').length) {
+          root = $("<div id='fbroot'></div>");
+          $('body').append(root);
         }
-        return script = new Element('script', {
-          async: true,
-          src: "//connect.facebook.net/en_US/all.js"
-        }).inject($$('script')[0], 'before');
+        fbsrc = '//connect.facebook.net/en_US/all.js';
+        script = $("<script async=true src='" + fbsrc + "'></script>");
+        return $('script')[0].prepend(script);
       };
 
       Facebook.prototype.renderPlugins = function(cb) {

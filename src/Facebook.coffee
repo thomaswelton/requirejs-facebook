@@ -69,19 +69,16 @@ define ['EventEmitter', 'module', 'jquery'], (EventEmitter, module, $) ->
 			window.setInterval resizeInterval, 500
 
 		injectFB: () ->
-			console.log $ 'facebook-jssdk'
-			
-			return if $ 'facebook-jssdk'
+			return if $('facebook-jssdk').length
 
-			if !$ 'fb-root'
-				new Element('div'
-					id: 'fb-root'
-				).inject document.body
+			if !$('fb-root').length
+				root = $ "<div id='fbroot'></div>"
+				$('body').append(root);
 
-			script = new Element('script'
-				async: true
-				src: "//connect.facebook.net/en_US/all.js"
-			).inject $$('script')[0], 'before'
+			fbsrc = '//connect.facebook.net/en_US/all.js'
+			script = $ "<script async=true src='#{fbsrc}'></script>"
+
+			$('script')[0].prepend script
 
 		renderPlugins: (cb) ->
 			@onReady () ->
