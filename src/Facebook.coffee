@@ -78,7 +78,7 @@ define ['EventEmitter', 'module', 'jquery'], (EventEmitter, module, $) ->
 			fbsrc = '//connect.facebook.net/en_US/all.js'
 			script = $ "<script async=true src='#{fbsrc}'></script>"
 
-			$('script')[0].prepend script
+			$('script').first().prepend script
 
 		renderPlugins: (cb) ->
 			@onReady () ->
