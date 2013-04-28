@@ -123,7 +123,7 @@
         }
         fbsrc = '//connect.facebook.net/en_US/all.js';
         script = $("<script async=true src='" + fbsrc + "'></script>");
-        return $('script')[0].prepend(script);
+        return $('script').first().prepend(script);
       };
 
       Facebook.prototype.renderPlugins = function(cb) {
