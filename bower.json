@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "./Facebook.js",
   "dependencies": {
-  	"thomaswelton/bower-event-emitter" : "0.0.0"
+  	"EventEmitter" : "thomaswelton/bower-event-emitter"
   },
   "ignore": [
     "**/.*",
