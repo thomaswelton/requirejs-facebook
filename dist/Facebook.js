@@ -72,26 +72,26 @@
       };
 
       Facebook.prototype.fbAsyncInit = function() {
-        var _this = this;
-
         this.fbInit();
         if (this.isIframe) {
-          this.fbiFrameInit();
+          return this.fbiFrameInit();
         }
-        FB.getLoginStatus(function(loginStatus) {
-          _this.loginStatus = loginStatus;
-        });
-        return this.fireEvent('fbInit');
       };
 
       Facebook.prototype.fbInit = function() {
-        return FB.init({
+        var _this = this;
+
+        FB.init({
           appId: this.config.appId,
           channelUrl: this.config.channelUrl,
           status: true,
           cookie: true,
           xfbml: true
         });
+        FB.getLoginStatus(function(loginStatus) {
+          _this.loginStatus = loginStatus;
+        });
+        return this.fireEvent('fbInit');
       };
 
       Facebook.prototype.fbiFrameInit = function() {
