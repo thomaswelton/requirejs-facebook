@@ -43,10 +43,6 @@ define ['EventEmitter', 'module', 'jquery'], (EventEmitter, module, $) ->
 			@fbInit()
 			@fbiFrameInit() if @isIframe
 
-			FB.getLoginStatus (@loginStatus) => return
-
-			@fireEvent 'fbInit'
-
 		fbInit: () =>
 			FB.init
 				appId      : @config.appId
@@ -54,6 +50,11 @@ define ['EventEmitter', 'module', 'jquery'], (EventEmitter, module, $) ->
 				status     : true
 				cookie     : true
 				xfbml      : true
+				
+			FB.getLoginStatus (@loginStatus) => return
+
+			@fireEvent 'fbInit'
+
 
 		fbiFrameInit: () =>
 			FB.Canvas.scrollTo 0,0
@@ -71,8 +72,8 @@ define ['EventEmitter', 'module', 'jquery'], (EventEmitter, module, $) ->
 		injectFB: () ->
 			return if $('facebook-jssdk').length
 
-			if !$('fb-root').length
-				root = $ "<div id='fbroot'></div>"
+			if $('fb-root').length is 0
+				root = $ "<div id='fb-root'></div>"
 				$('body').append(root);
 
 			fbsrc = '//connect.facebook.net/en_US/all.js'
