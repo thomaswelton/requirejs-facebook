@@ -4,7 +4,7 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __slice = [].slice;
 
-  define(['EventEmitter', 'module', 'mootools'], function(EventEmitter, module) {
+  define(['compiled/modules/EventEmitter', 'module', 'mootools'], function(EventEmitter, module) {
     var Facebook;
 
     Facebook = (function(_super) {
@@ -31,7 +31,7 @@
         }
         this.onReady(function(FB) {
           FB.Event.subscribe('edge.create', function(url) {
-            console.log('fire like event');
+            
             return _this.fireEvent('onLike', url);
           });
           return FB.Event.subscribe('edge.remove', function(url) {

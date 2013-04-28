@@ -1,0 +1,9 @@
+{
+  "name": "bower-facebook",
+  "version": "0.0.0",
+  "devDependencies": {
+    "grunt-contrib-coffee": ">= 0.6.6",
+    "grunt-contrib-uglify": ">= 0.2.0",
+    "grunt-remove-logging": ">= 0.1.0"
+  }
+}
