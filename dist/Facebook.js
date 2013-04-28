@@ -114,6 +114,7 @@
       Facebook.prototype.injectFB = function() {
         var script;
 
+        
         if ($('facebook-jssdk')) {
           return;
         }
