@@ -70,6 +70,7 @@ define ['EventEmitter', 'module', 'jquery'], (EventEmitter, module, $) ->
 
 		injectFB: () ->
 			console.log $ 'facebook-jssdk'
+			
 			return if $ 'facebook-jssdk'
 
 			if !$ 'fb-root'

@@ -17,7 +17,7 @@ module.exports = (grunt) =>
 			files:
 				expand: true
 				cwd: 'dist'
-				src: ['Facebook.js']
+				src: ['Facebook.min.js']
 				dest: 'dist'
 				ext: '.js'
 
@@ -52,5 +52,5 @@ module.exports = (grunt) =>
 	grunt.loadNpmTasks 'grunt-git'
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
 	
-	grunt.registerTask 'default', ['coffee', 'removelogging', 'uglify']
+	grunt.registerTask 'default', ['coffee', 'uglify', 'removelogging']
 	grunt.registerTask 'commit', ['default', 'git']
