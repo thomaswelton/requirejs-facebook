@@ -1,4 +1,4 @@
-define ['EventEmitter', 'module', 'mootools'], (EventEmitter, module) ->
+define ['EventEmitter', 'module', 'jquery'], (EventEmitter, module, $) ->
 	class Facebook extends EventEmitter
 		constructor: (@config) ->
 			@api = null
@@ -16,7 +16,6 @@ define ['EventEmitter', 'module', 'mootools'], (EventEmitter, module) ->
 			##facebook like tracking
 			@onReady (FB) =>
 				FB.Event.subscribe 'edge.create', (url) =>
-					console.log 'fire like event'
 					@fireEvent 'onLike', url
 
 				FB.Event.subscribe 'edge.remove', (url) =>
@@ -70,6 +69,7 @@ define ['EventEmitter', 'module', 'mootools'], (EventEmitter, module) ->
 			window.setInterval resizeInterval, 500
 
 		injectFB: () ->
+			console.log $ 'facebook-jssdk'
 			return if $ 'facebook-jssdk'
 
 			if !$ 'fb-root'
@@ -84,7 +84,7 @@ define ['EventEmitter', 'module', 'mootools'], (EventEmitter, module) ->
 
 		renderPlugins: (cb) ->
 			@onReady () ->
-				fbLike = $$('.fb-like:not([fb-xfbml-state=rendered])')
+				fbLike = $('.fb-like:not([fb-xfbml-state=rendered])')
 				
 				for button in fbLike
 					FB.XFBML.parse button.getParent(), cb

@@ -32,7 +32,7 @@ module.exports = (grunt) =>
 
 			javascript:
 				files: {
-					'dist/Facebook.js': ['dist/Facebook.js']
+					'dist/Facebook.min.js': ['dist/Facebook.js']
 				}
 
 		git:
