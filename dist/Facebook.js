@@ -117,7 +117,7 @@
         if ($('facebook-jssdk').length) {
           return;
         }
-        if (!$('fb-root').length) {
+        if ($('fb-root').length === 0) {
           root = $("<div id='fbroot'></div>");
           $('body').append(root);
         }
