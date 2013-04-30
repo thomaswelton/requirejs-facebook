@@ -1,6 +1,8 @@
-define ['EventEmitter', 'module', 'jquery'], (EventEmitter, module, $) ->
+define ['EventEmitter', 'module'], (EventEmitter, module) ->
 	class Facebook extends EventEmitter
 		constructor: (@config) ->
+			console.log 'FB constructor'
+			
 			@api = null
 			@isIframe = top isnt self
 
@@ -55,7 +57,6 @@ define ['EventEmitter', 'module', 'jquery'], (EventEmitter, module, $) ->
 
 			@fireEvent 'fbInit'
 
-
 		fbiFrameInit: () =>
 			FB.Canvas.scrollTo 0,0
 			FB.Canvas.setSize
@@ -70,23 +71,20 @@ define ['EventEmitter', 'module', 'jquery'], (EventEmitter, module, $) ->
 			window.setInterval resizeInterval, 500
 
 		injectFB: () ->
-			return if $('facebook-jssdk').length
+			return if document.getElementById 'facebook-jssdk'
 
-			if $('fb-root').length is 0
-				root = $ "<div id='fb-root'></div>"
-				$('body').append(root);
+			if !document.getElementById 'fb-root'
+				root = document.createElement 'div'
+				root.setAttribute 'id','fb-root'
 
-			fbsrc = '//connect.facebook.net/en_US/all.js'
-			script = $ "<script async=true src='#{fbsrc}'></script>"
+				document.body.appendChild root
 
-			$('script').first().prepend script
+			requirejs ['//connect.facebook.net/en_US/all.js']
 
 		renderPlugins: (cb) ->
 			@onReady () ->
-				fbLike = $('.fb-like:not([fb-xfbml-state=rendered])')
-				
-				for button in fbLike
-					FB.XFBML.parse button.getParent(), cb
+				## TODO: optimize by parsing '.fb-like:not([fb-xfbml-state=rendered])'
+				FB.XFBML.parse document.body, cb
 
 		## http://developers.facebook.com/docs/reference/javascript/FB.Canvas.getPageInfo/
 		getCanvasInfo: (cb) ->

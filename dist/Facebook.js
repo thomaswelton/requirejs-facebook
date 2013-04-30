@@ -4,7 +4,7 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __slice = [].slice;
 
-  define(['EventEmitter', 'module', 'jquery'], function(EventEmitter, module, $) {
+  define(['EventEmitter', 'module'], function(EventEmitter, module) {
     var Facebook;
 
     Facebook = (function(_super) {
@@ -20,6 +20,7 @@
         this.onReady = __bind(this.onReady, this);
         this.login = __bind(this.login, this);
         this.ui = __bind(this.ui, this);
+        console.log('FB constructor');
         this.api = null;
         this.isIframe = top !== self;
         Facebook.__super__.constructor.call(this);
@@ -112,31 +113,22 @@
       };
 
       Facebook.prototype.injectFB = function() {
-        var fbsrc, root, script;
+        var root;
 
-        if ($('facebook-jssdk').length) {
+        if (document.getElementById('facebook-jssdk')) {
           return;
         }
-        if ($('fb-root').length === 0) {
-          root = $("<div id='fb-root'></div>");
-          $('body').append(root);
+        if (!document.getElementById('fb-root')) {
+          root = document.createElement('div');
+          root.setAttribute('id', 'fb-root');
+          document.body.appendChild(root);
         }
-        fbsrc = '//connect.facebook.net/en_US/all.js';
-        script = $("<script async=true src='" + fbsrc + "'></script>");
-        return $('script').first().prepend(script);
+        return requirejs(['//connect.facebook.net/en_US/all.js']);
       };
 
       Facebook.prototype.renderPlugins = function(cb) {
         return this.onReady(function() {
-          var button, fbLike, _i, _len, _results;
-
-          fbLike = $('.fb-like:not([fb-xfbml-state=rendered])');
-          _results = [];
-          for (_i = 0, _len = fbLike.length; _i < _len; _i++) {
-            button = fbLike[_i];
-            _results.push(FB.XFBML.parse(button.getParent(), cb));
-          }
-          return _results;
+          return FB.XFBML.parse(document.body, cb);
         });
       };
 
