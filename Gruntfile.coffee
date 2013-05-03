@@ -38,20 +38,30 @@ module.exports = (grunt) =>
 
 		git:
 			javascript:
-				options: {
-	                command: 'commit'
-	                message: 'Grunt build'
-	            }
+				options:
+					command: 'commit'
+					message: 'Grunt build'
 
-	            files: {
-	            	src: ['dist/Facebook.js']
-	            }
+				files:
+					src: ['dist/Facebook.js']
+
+		markdown:
+			readmes:
+				files: [
+					{
+						expand: true
+						src: 'README.md'
+						dest: 'dist'
+						ext: '.html'
+					}
+				]
 
 		
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
 	grunt.loadNpmTasks 'grunt-remove-logging'
 	grunt.loadNpmTasks 'grunt-git'
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
+	grunt.loadNpmTasks 'grunt-markdown'
 	
-	grunt.registerTask 'default', ['coffee', 'uglify']
+	grunt.registerTask 'default', ['coffee', 'uglify', 'markdown']
 	grunt.registerTask 'commit', ['default', 'git']
