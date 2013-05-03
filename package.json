@@ -3,6 +3,7 @@
   "description": "Convenience wrapper for the Facebook SDK",
   "version": "0.0.0",
   "devDependencies": {
+  	"grunt": ">= 0.4.1",
     "grunt-contrib-coffee": ">= 0.6.6",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-remove-logging": ">= 0.1.0",
