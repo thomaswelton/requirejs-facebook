@@ -22,16 +22,18 @@ module.exports = (grunt) =>
 				ext: '.js'
 
 		uglify:
-			javascript:
+			options:
 				mangle: false
 				compress: true
 				banner: """/*!
 						<%= pkg.name %> v<%= pkg.version %> 
 						<%= pkg.description %>
-						Build time: #{(new Date()).getTime()}
+						Build time: #{(new Date()).toString('dddd, MMMM ,yyyy')}
 						*/\n\n"""
+					
+			javascript:
 				files: {
-					'dist/Facebook.min.js': ['dist/Facebook.js']
+					'dist/Facebook.min.js': 'dist/Facebook.js'
 				}
 
 		git:
@@ -51,5 +53,5 @@ module.exports = (grunt) =>
 	grunt.loadNpmTasks 'grunt-git'
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
 	
-	grunt.registerTask 'default', ['coffee']
+	grunt.registerTask 'default', ['coffee', 'uglify']
 	grunt.registerTask 'commit', ['default', 'git']
