@@ -11,12 +11,23 @@ This module utilises requirejs module configuration. It requires the following J
 requirejs.config({
 	config:{
 		'Facebook': {
-			'appId'      : 'APP_ID',
-			'channelUrl' : 'CHANNEL_URL'	
+			'appId'      	: 'APP_ID',
+			'channelUrl'	: 'CHANNEL_URL',
+			'autoResize'	: false	,
+			'status'     	: true,
+			'cookie'     	: true,
+			'xfbml'			: true,
 		}
 	}
 });
 ```
+
+* appId - FB Application ID (required)
+* channelUrl - Absolute URL to your Fb channel.html file (required)
+* autoResize - true / false (optional)
+* status - FB.init config (optional - default true)
+* cookie - FB.init config (optional - default true)
+* xfbml - FB.init config (optional - default true)
 
 The contents of `config.Facebook` will be passed to the contructor of the Facebook module when loaded.
 The Faceobok module scan then be loaded as a requirejs module. It returns a single instance of the Facebook module.
