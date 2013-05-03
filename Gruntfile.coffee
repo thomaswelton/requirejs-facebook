@@ -43,7 +43,7 @@ module.exports = (grunt) =>
 					message: 'Grunt build'
 
 				files:
-					src: ['dist/Facebook.js']
+					src: ['dist/Facebook.js','dist/Facebook.min.js','dist/README.html']
 
 		markdown:
 			readmes:
@@ -56,12 +56,26 @@ module.exports = (grunt) =>
 					}
 				]
 
+		regarde:
+			markdown:
+				files: 'README.html'
+				tasks: 'markdown'
+			
+			coffee:
+				files: ['src/**/*.coffee']
+				tasks: ['coffee']
+
 		
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
 	grunt.loadNpmTasks 'grunt-remove-logging'
 	grunt.loadNpmTasks 'grunt-git'
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
 	grunt.loadNpmTasks 'grunt-markdown'
+	grunt.loadNpmTasks 'grunt-regarde'
 	
-	grunt.registerTask 'default', ['coffee', 'uglify', 'markdown']
+	grunt.registerTask 'default', ['compile', 'uglify']
+
 	grunt.registerTask 'commit', ['default', 'git']
+	
+	grunt.registerTask 'compile', 'Compile coffeescript and markdown', ['coffee', 'markdown']
+	grunt.registerTask 'watch', 'Watch coffee and markdown files for changes and recompile', ['regarde']

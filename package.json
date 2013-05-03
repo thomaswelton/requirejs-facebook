@@ -8,6 +8,7 @@
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-remove-logging": ">= 0.1.0",
     "grunt-git": "0.0.1",
-    "grunt-markdown": "git://github.com/thomaswelton/grunt-markdown.git"
+    "grunt-markdown": "git://github.com/thomaswelton/grunt-markdown.git",
+    "grunt-regarde": ">= 0.1.1"
   }
 }
