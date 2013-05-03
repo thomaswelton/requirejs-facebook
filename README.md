@@ -1,4 +1,4 @@
-# Bower Facebook
+# Bower Facebook [![Build Status](https://travis-ci.org/thomaswelton/bower-facebook.png)](https://travis-ci.org/thomaswelton/bower-facebook)
 
 AMD compatible Bower component written in CoffeeScript.
 
