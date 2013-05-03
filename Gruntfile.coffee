@@ -36,15 +36,6 @@ module.exports = (grunt) =>
 					'dist/Facebook.min.js': 'dist/Facebook.js'
 				}
 
-		git:
-			javascript:
-				options:
-					command: 'commit'
-					message: 'Grunt build'
-
-				files:
-					src: ['dist/Facebook.js','dist/Facebook.min.js','dist/README.html']
-
 		markdown:
 			readmes:
 				files: [
@@ -68,7 +59,6 @@ module.exports = (grunt) =>
 		
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
 	grunt.loadNpmTasks 'grunt-remove-logging'
-	grunt.loadNpmTasks 'grunt-git'
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
 	grunt.loadNpmTasks 'grunt-markdown'
 	grunt.loadNpmTasks 'grunt-regarde'
