@@ -38,7 +38,7 @@ define ['EventEmitter', 'module'], (EventEmitter, module) ->
 			if FB?
 				callback FB
 			else
-				@addEvent 'fbInit', () =>
+				@once 'fbInit', () =>
 					callback FB
 
 		fbAsyncInit: () =>
