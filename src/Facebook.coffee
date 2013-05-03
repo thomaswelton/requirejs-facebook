@@ -1,13 +1,25 @@
 define ['EventEmitter', 'module'], (EventEmitter, module) ->
 	class Facebook extends EventEmitter
 		constructor: (@config) ->
-			console.log 'FB constructor'
-			
+			## Init EventEmitter
+			super()
+
+			## Init Facebook
+			console.log 'Facebook init'
+
+			defaults = 
+				status     : true
+				cookie     : true
+				xfbml      : true
+
+			## Merge default values
+			for key, value of @config
+				console.log key, value
+				defaults[key] = value
+
+			@config = defaults
 			@api = null
 			@isIframe = top isnt self
-
-			##Init EventEmitter
-			super()
 
 			if FB?
 				@fbAsyncInit()
@@ -15,7 +27,7 @@ define ['EventEmitter', 'module'], (EventEmitter, module) ->
 				window.fbAsyncInit = @fbAsyncInit
 				@injectFB()
 			
-			##facebook like tracking
+			## Facebook like tracking
 			@onReady (FB) =>
 				FB.Event.subscribe 'edge.create', (url) =>
 					@fireEvent 'onLike', url
@@ -49,9 +61,9 @@ define ['EventEmitter', 'module'], (EventEmitter, module) ->
 			FB.init
 				appId      : @config.appId
 				channelUrl : @config.channelUrl
-				status     : true
-				cookie     : true
-				xfbml      : true
+				status     : @config.status
+				cookie     : @config.cookie
+				xfbml      : @config.xfbml
 				
 			FB.getLoginStatus (@loginStatus) => return
 
@@ -63,12 +75,13 @@ define ['EventEmitter', 'module'], (EventEmitter, module) ->
 				width: 810
 				height: document.body.offsetHeight
 			
-			resizeInterval = () ->
-				FB.Canvas.setSize
-					width: 810
-					height: document.body.offsetHeight
+			if @config.autoResize? and @config.autoResize
+				resizeInterval = () ->
+					FB.Canvas.setSize
+						width: 810
+						height: document.body.offsetHeight
 
-			window.setInterval resizeInterval, 500
+				window.setInterval resizeInterval, 500
 
 		injectFB: () ->
 			return if document.getElementById 'facebook-jssdk'
