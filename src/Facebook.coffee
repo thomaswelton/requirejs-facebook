@@ -83,8 +83,24 @@ define ['EventEmitter', 'module'], (EventEmitter, module) ->
 
 		renderPlugins: (cb) ->
 			@onReady () ->
-				## TODO: optimize by parsing '.fb-like:not([fb-xfbml-state=rendered])'
-				FB.XFBML.parse document.body, cb
+				## Parse only unrendered plugins for browser that support querySelectorAll
+				if document.querySelectorAll?
+					plugins = document.body.querySelectorAll '.fb-like:not([fb-xfbml-state=rendered])'
+
+					## Each plugin renders async, count the amount to render
+					unrenderedCount = plugins.length
+
+					cbStack = () ->
+						## Decrement the unrendered count
+						unrenderedCount--
+						## Call the main callback once all done
+						cb() if unrenderedCount is 0
+
+					for plugin in plugins
+						FB.XFBML.parse document.body, cbStack
+
+				else
+					FB.XFBML.parse document.body, cb
 
 		## http://developers.facebook.com/docs/reference/javascript/FB.Canvas.getPageInfo/
 		getCanvasInfo: (cb) ->
