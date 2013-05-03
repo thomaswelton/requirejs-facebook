@@ -1,4 +1,5 @@
 # Bower Facebook
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/917637450c836ec0373668c8df3c3d06 "githalytics.com")](http://githalytics.com/thomaswelton/bower-facebook)
 [![Build Status](https://travis-ci.org/thomaswelton/bower-facebook.png)](https://travis-ci.org/thomaswelton/bower-facebook)
 [![Dependency Status](https://david-dm.org/thomaswelton/bower-facebook.png)](https://david-dm.org/thomaswelton/bower-facebook)
 
