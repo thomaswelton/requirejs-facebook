@@ -11,7 +11,8 @@
       __extends(Facebook, _super);
 
       function Facebook(config) {
-        var _this = this;
+        var defaults, key, value, _ref,
+          _this = this;
 
         this.config = config;
         this.fbiFrameInit = __bind(this.fbiFrameInit, this);
@@ -20,10 +21,22 @@
         this.onReady = __bind(this.onReady, this);
         this.login = __bind(this.login, this);
         this.ui = __bind(this.ui, this);
-        console.log('FB constructor');
+        Facebook.__super__.constructor.call(this);
+        console.log('Facebook init');
+        defaults = {
+          status: true,
+          cookie: true,
+          xfbml: true
+        };
+        _ref = this.config;
+        for (key in _ref) {
+          value = _ref[key];
+          console.log(key, value);
+          defaults[key] = value;
+        }
+        this.config = defaults;
         this.api = null;
         this.isIframe = top !== self;
-        Facebook.__super__.constructor.call(this);
         if (typeof FB !== "undefined" && FB !== null) {
           this.fbAsyncInit();
         } else {
@@ -66,7 +79,7 @@
         if (typeof FB !== "undefined" && FB !== null) {
           return callback(FB);
         } else {
-          return this.addEvent('fbInit', function() {
+          return this.once('fbInit', function() {
             return callback(FB);
           });
         }
@@ -85,9 +98,9 @@
         FB.init({
           appId: this.config.appId,
           channelUrl: this.config.channelUrl,
-          status: true,
-          cookie: true,
-          xfbml: true
+          status: this.config.status,
+          cookie: this.config.cookie,
+          xfbml: this.config.xfbml
         });
         FB.getLoginStatus(function(loginStatus) {
           _this.loginStatus = loginStatus;
@@ -103,13 +116,15 @@
           width: 810,
           height: document.body.offsetHeight
         });
-        resizeInterval = function() {
-          return FB.Canvas.setSize({
-            width: 810,
-            height: document.body.offsetHeight
-          });
-        };
-        return window.setInterval(resizeInterval, 500);
+        if ((this.config.autoResize != null) && this.config.autoResize) {
+          resizeInterval = function() {
+            return FB.Canvas.setSize({
+              width: 810,
+              height: document.body.offsetHeight
+            });
+          };
+          return window.setInterval(resizeInterval, 500);
+        }
       };
 
       Facebook.prototype.injectFB = function() {
@@ -128,7 +143,26 @@
 
       Facebook.prototype.renderPlugins = function(cb) {
         return this.onReady(function() {
-          return FB.XFBML.parse(document.body, cb);
+          var cbStack, plugin, plugins, unrenderedCount, _i, _len, _results;
+
+          if (document.querySelectorAll != null) {
+            plugins = document.body.querySelectorAll('.fb-like:not([fb-xfbml-state=rendered])');
+            unrenderedCount = plugins.length;
+            cbStack = function() {
+              unrenderedCount--;
+              if (unrenderedCount === 0) {
+                return cb();
+              }
+            };
+            _results = [];
+            for (_i = 0, _len = plugins.length; _i < _len; _i++) {
+              plugin = plugins[_i];
+              _results.push(FB.XFBML.parse(document.body, cbStack));
+            }
+            return _results;
+          } else {
+            return FB.XFBML.parse(document.body, cb);
+          }
         });
       };
 

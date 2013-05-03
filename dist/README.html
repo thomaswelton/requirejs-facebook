@@ -117,11 +117,23 @@
 <pre><code class="lang-javascript">requirejs.config({
     config:{
         &#39;Facebook&#39;: {
-            &#39;appId&#39;      : &#39;APP_ID&#39;,
-            &#39;channelUrl&#39; : &#39;CHANNEL_URL&#39;    
+            &#39;appId&#39;          : &#39;APP_ID&#39;,
+            &#39;channelUrl&#39;    : &#39;CHANNEL_URL&#39;,
+            &#39;autoResize&#39;    : false    ,
+            &#39;status&#39;         : true,
+            &#39;cookie&#39;         : true,
+            &#39;xfbml&#39;            : true,
         }
     }
 });</code></pre>
+<ul>
+<li>appId - FB Application ID (required)</li>
+<li>channelUrl - Absolute URL to your Fb channel.html file (required)</li>
+<li>autoResize - true / false (optional)</li>
+<li>status - FB.init config (optional - default true)</li>
+<li>cookie - FB.init config (optional - default true)</li>
+<li>xfbml - FB.init config (optional - default true)</li>
+</ul>
 <p>The contents of <code>config.Facebook</code> will be passed to the contructor of the Facebook module when loaded.
 The Faceobok module scan then be loaded as a requirejs module. It returns a single instance of the Facebook module.</p>
 <p>The Facebook SDK can be accessed directly via <code>Facebook.FB</code>
