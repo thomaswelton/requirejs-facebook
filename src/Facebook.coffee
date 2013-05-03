@@ -115,4 +115,6 @@ define ['EventEmitter', 'module'], (EventEmitter, module) ->
 					height: height
 				    
 
-	return new Facebook module.config()
+	## Create and return a new instance of Facebook
+	## module.config() returns a JSON object as defined in requirejs.config.Facebook
+	new Facebook module.config()
