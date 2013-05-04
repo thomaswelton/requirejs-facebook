@@ -6,11 +6,20 @@ module.exports = (grunt) =>
 		coffee:
 			compile:
 				files: [
-					expand: true
-					cwd: 'src'
-					src: ['Facebook.coffee']
-					dest: 'dist'
-					ext: '.js'
+					{
+						expand: true
+						cwd: 'src'
+						src: ['Facebook.coffee']
+						dest: 'dist'
+						ext: '.js'
+					},
+					{
+						expand: true
+						cwd: 'src'
+						src: ['main.coffee']
+						dest: 'demo'
+						ext: '.js'
+					}
 				]
 
 		removelogging:

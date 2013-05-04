@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bower Facebook Demo</title>
+	
+	<script data-main="main" src="../components/requirejs/require.js"></script>
+	<script>
+		requirejs.config({
+			baseUrl: "",
+			config:{
+				'Facebook': {
+					'appId'      : '359907880785611',
+					'channelUrl' : 'http://localhost:9001/demo/channel.html'
+				}
+			},
+			paths:{
+				'domReady' : '../components/requirejs-domready/domReady',
+				'Facebook' : '../dist/Facebook',
+				'EventEmitter': '../components/EventEmitter/dist/EventEmitter'
+			}
+		});
+	</script>
+</head>
+<body>
+	<h1>Facebook</h1>
+
+	<button data-fb-login="">Sign in with Facebook</button>
+
+	<button data-fb-logout="">Logout</button>
+</body>
+</html>

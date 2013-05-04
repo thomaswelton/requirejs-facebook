@@ -5,6 +5,10 @@
   "dependencies": {
   	"EventEmitter" : "git@github.com:thomaswelton/bower-event-emitter.git"
   },
+  "devDependencies": {
+    "requirejs": "git://github.com/jrburke/requirejs",
+    "requirejs-domready": "git://github.com/thomaswelton/domReady.git"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
