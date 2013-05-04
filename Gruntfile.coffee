@@ -56,12 +56,20 @@ module.exports = (grunt) =>
 				files: ['src/**/*.coffee']
 				tasks: ['coffee']
 
+		connect:
+			server:
+				options:
+					keepalive: true
+					port: 9001
+					base: ''
+
 		
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
 	grunt.loadNpmTasks 'grunt-remove-logging'
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
 	grunt.loadNpmTasks 'grunt-markdown'
 	grunt.loadNpmTasks 'grunt-regarde'
+	grunt.loadNpmTasks 'grunt-contrib-connect'
 	
 	grunt.registerTask 'default', ['compile', 'uglify']
 
