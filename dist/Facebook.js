@@ -19,7 +19,9 @@
         this.fbInit = __bind(this.fbInit, this);
         this.fbAsyncInit = __bind(this.fbAsyncInit, this);
         this.onReady = __bind(this.onReady, this);
+        this.getLoginStatus = __bind(this.getLoginStatus, this);
         this.login = __bind(this.login, this);
+        this.logout = __bind(this.logout, this);
         this.ui = __bind(this.ui, this);
         Facebook.__super__.constructor.call(this);
         console.log('Facebook init');
@@ -62,14 +64,61 @@
         });
       };
 
-      Facebook.prototype.login = function(callback, scope) {
-        var _ref;
+      Facebook.prototype.logout = function(cb) {
+        var _this = this;
 
+        return this.onReady(function(FB) {
+          var _ref;
+
+          console.log(_this.loginStatus);
+          if ((((_ref = _this.loginStatus) != null ? _ref.status : void 0) != null) && _this.loginStatus.status === 'connected') {
+            return FB.logout(function(response) {
+              if (typeof cb === 'function') {
+                return cb(response);
+              }
+            });
+          } else {
+            console.warn('User is already logged out');
+            if (typeof cb === 'function') {
+              return cb();
+            }
+          }
+        });
+      };
+
+      Facebook.prototype.login = function(obj) {
+        var scope, _ref;
+
+        scope = obj.scope != null ? obj.scope : '';
         if ((((_ref = this.loginStatus) != null ? _ref.status : void 0) != null) && this.loginStatus.status === 'connected') {
-          return callback(this.loginStatus);
+          if (obj.onLogin != null) {
+            obj.onLogin(this.loginStatus.authResponse);
+          }
+          return;
         }
         return this.onReady(function(FB) {
-          return FB.login(callback, scope);
+          return FB.login(function(response) {
+            if (response.authResponse) {
+              if (obj.onLogin != null) {
+                return obj.onLogin(response.authResponse);
+              }
+            } else {
+              if (obj.onCancel != null) {
+                return obj.onCancel();
+              }
+            }
+          }, scope);
+        });
+      };
+
+      Facebook.prototype.getLoginStatus = function(cb) {
+        var _this = this;
+
+        return FB.getLoginStatus(function(loginStatus) {
+          _this.loginStatus = loginStatus;
+          if (typeof cb === 'function') {
+            return cb(_this.loginStatus);
+          }
         });
       };
 
@@ -102,8 +151,18 @@
           cookie: this.config.cookie,
           xfbml: this.config.xfbml
         });
-        FB.getLoginStatus(function(loginStatus) {
+        this.getLoginStatus();
+        FB.Event.subscribe('auth.login', function(loginStatus) {
           _this.loginStatus = loginStatus;
+          return _this.fireEvent('onLogin');
+        });
+        FB.Event.subscribe('auth.statusChange', function(loginStatus) {
+          _this.loginStatus = loginStatus;
+          return _this.fireEvent('onStatusChange');
+        });
+        FB.Event.subscribe('auth.authResponseChange', function(loginStatus) {
+          _this.loginStatus = loginStatus;
+          return _this.fireEvent('onAuthChange');
         });
         return this.fireEvent('fbInit');
       };
@@ -128,7 +187,7 @@
       };
 
       Facebook.prototype.injectFB = function() {
-        var root;
+        var protocol, root;
 
         if (document.getElementById('facebook-jssdk')) {
           return;
@@ -138,7 +197,8 @@
           root.setAttribute('id', 'fb-root');
           document.body.appendChild(root);
         }
-        return requirejs(['//connect.facebook.net/en_US/all.js']);
+        protocol = location.protocol === 'https:' ? 'https:' : 'http:';
+        return requirejs([protocol + '//connect.facebook.net/en_US/all.js']);
       };
 
       Facebook.prototype.renderPlugins = function(cb) {

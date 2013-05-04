@@ -39,12 +39,40 @@ define ['EventEmitter', 'module'], (EventEmitter, module) ->
 			@onReady (FB) ->
 				FB.ui args...
 
-		login: (callback, scope) =>
+		
+		logout: (cb) =>
+			@onReady (FB) =>
+				console.log @loginStatus
+				if @loginStatus?.status? and @loginStatus.status is 'connected'	
+					FB.logout (response) ->
+						cb response if typeof cb is 'function'
+				else
+					console.warn 'User is already logged out'
+					cb() if typeof cb is 'function'
+
+		login: (obj) =>
+			scope = if obj.scope? then obj.scope else ''
+
+			## If already logged in callback
 			if @loginStatus?.status? and @loginStatus.status is 'connected'
-				return callback @loginStatus
-			##else
+				if obj.onLogin?
+					obj.onLogin @loginStatus.authResponse
+				return
+			
+			## Login the user
 			@onReady (FB) ->
-				FB.login callback, scope
+				FB.login (response) ->
+					if response.authResponse
+						if obj.onLogin?
+							obj.onLogin response.authResponse
+					else 
+						if obj.onCancel?
+							obj.onCancel()
+				, scope
+
+		getLoginStatus: (cb) =>
+			FB.getLoginStatus (@loginStatus) =>
+				cb @loginStatus if typeof cb is 'function'
 
 		onReady: (callback) =>
 			if FB?
@@ -65,7 +93,16 @@ define ['EventEmitter', 'module'], (EventEmitter, module) ->
 				cookie     : @config.cookie
 				xfbml      : @config.xfbml
 				
-			FB.getLoginStatus (@loginStatus) => return
+			@getLoginStatus()
+
+			FB.Event.subscribe 'auth.login', (@loginStatus) =>
+				@fireEvent 'onLogin'
+
+			FB.Event.subscribe 'auth.statusChange', (@loginStatus) =>
+				@fireEvent 'onStatusChange'
+
+			FB.Event.subscribe 'auth.authResponseChange', (@loginStatus) =>
+				@fireEvent 'onAuthChange'
 
 			@fireEvent 'fbInit'
 
