@@ -92,7 +92,9 @@ define ['EventEmitter', 'module'], (EventEmitter, module) ->
 
 				document.body.appendChild root
 
-			requirejs ['//connect.facebook.net/en_US/all.js']
+			## Allows us to load the SDK via http:// when the site may be loaded via file://
+			protocol = if location.protocol is 'https:' then 'https:' else 'http:'
+			requirejs [protocol + '//connect.facebook.net/en_US/all.js']
 
 		renderPlugins: (cb) ->
 			@onReady () ->
