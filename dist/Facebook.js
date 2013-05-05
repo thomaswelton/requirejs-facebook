@@ -31,6 +31,9 @@
         this.ui = __bind(this.ui, this);
         Facebook.__super__.constructor.call(this);
         console.log('Facebook init');
+        if (this.config.appId.trim().length === 0) {
+          console.warn('No Facebook app ID found in config');
+        }
         defaults = {
           status: true,
           cookie: true,
@@ -269,6 +272,9 @@
         var _this = this;
 
         FB.init(this.config);
+        if (this.config.appId.trim().length === 0) {
+          return;
+        }
         this.getLoginStatus(function(loginStatus) {
           if (loginStatus.status === 'connected') {
             return _this.getPermissions(function() {

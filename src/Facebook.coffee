@@ -7,6 +7,9 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 			## Init Facebook
 			console.log 'Facebook init'
 
+			if @config.appId.trim().length is 0
+				console.warn 'No Facebook app ID found in config'
+
 			defaults = 
 				status     : true
 				cookie     : true
@@ -147,6 +150,8 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 		fbInit: () =>
 			FB.init @config
 				
+			return if @config.appId.trim().length is 0
+
 			@getLoginStatus (loginStatus) =>
 				if loginStatus.status is 'connected'
 					@getPermissions () => @fireEvent 'fbInit'
