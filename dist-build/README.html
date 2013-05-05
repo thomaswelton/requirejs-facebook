@@ -1,0 +1,161 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <title>doc</title>
+    <style>
+      /*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }
+    </style>
+  </head>
+  <body>  
+    <h1>Bower Facebook</h1>
+<p>AMD compatible Bower component written in CoffeeScript.</p>
+<h2>Setup</h2>
+<p>This module utilises requirejs module configuration. It requires the following JS to be added to the page</p>
+<pre><code class="lang-javascript">requirejs.config({
+    config:{
+        &#39;Facebook&#39;: {
+            &#39;appId&#39;          : &#39;APP_ID&#39;,
+            &#39;channelUrl&#39;    : &#39;CHANNEL_URL&#39;,
+            &#39;autoResize&#39;    : false    ,
+            &#39;status&#39;         : true,
+            &#39;cookie&#39;         : true,
+            &#39;xfbml&#39;            : true,
+        }
+    }
+});</code></pre>
+<ul>
+<li>appId - FB Application ID (required)</li>
+<li>channelUrl - Absolute URL to your Fb channel.html file (required)</li>
+<li>autoResize - true / false (optional)</li>
+<li>status - FB.init config (optional - default true)</li>
+<li>cookie - FB.init config (optional - default true)</li>
+<li>xfbml - FB.init config (optional - default true)</li>
+</ul>
+<p>The contents of <code>config.Facebook</code> will be passed to the contructor of the Facebook module when loaded.
+The Faceobok module scan then be loaded as a requirejs module. It returns a single instance of the Facebook module.</p>
+<p>The Facebook SDK can be accessed directly via <code>Facebook.FB</code>
+Or can be access through helpers and wrappers</p>
+<h2>Helpers</h2>
+<p><code>Facebook.UI</code>
+FB onReady wrapper for the <a href="https://developers.facebook.com/docs/reference/javascript/FB.ui/">FB.ui method</a></p>
+<p><code>Facebook.login</code>
+FB onReady wrapper for the <a href="http://developers.facebook.com/docs/reference/javascript/FB.login/">FB.login method</a>
+It will also chech the login status of the user, so that calls to Facebook.login immeditaley execute the callback if the suer is logged in with triggering another FB.login call</p>
+<p><code>Facebook.renderPlugins</code>
+Renders any XFBML plugins </p>
+<p><code>Facebook.getCanvasInfo</code>
+Wrapper for the <a href="http://developers.facebook.com/docs/reference/javascript/FB.Canvas.getPageInfo/">FB.Canvas.getPageInfo method</a></p>
+<p><code>Facebook.setCanvasSize(width, height)</code>
+Wrapper for the <a href="http://developers.facebook.com/docs/reference/javascript/FB.Canvas.setSize/">FB.Canvas.setSize method</a></p>
+<h2>Events</h2>
+<ul>
+<li>onLike</li>
+<li>onUnlike</li>
+<li>fbInit</li>
+</ul>
+
+  </body>
+</html>

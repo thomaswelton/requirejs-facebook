@@ -15,8 +15,11 @@
 				}
 			},
 			paths:{
+				'json' : '../components/requirejs-plugins/src/json',
+				'text' : '../components/requirejs-plugins/lib/text',
 				'domReady' : '../components/requirejs-domready/domReady',
 				'Facebook' : '../dist/Facebook',
+				'data' : '../dist/data.json',
 				'EventEmitter': '../components/EventEmitter/dist/EventEmitter'
 			}
 		});
@@ -24,9 +27,13 @@
 </head>
 <body>
 	<h1>Facebook</h1>
+	
+	<!-- Login user and request user likes -->
+	<button data-fb-login="user_likes">Sign in with Facebook</button>
 
-	<button data-fb-login="">Sign in with Facebook</button>
-
-	<button data-fb-logout="">Logout</button>
+	<button id="logout">Logout</button>
+	
+	<!-- Prompt for an additional permission -->
+	<button id="getEmail">Get Email</button>
 </body>
 </html>

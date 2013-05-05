@@ -1,0 +1,4 @@
+fields =
+	id: null
+	name: null
+	email: ["email"]
