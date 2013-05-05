@@ -3,3 +3,5 @@
 /bower-facebook.sublime-project
 /bower-facebook.sublime-workspace
 /components/
+/dist-src/
+/src/*.js

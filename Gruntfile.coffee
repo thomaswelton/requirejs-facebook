@@ -10,7 +10,7 @@ module.exports = (grunt) =>
 						expand: true
 						cwd: 'src'
 						src: ['Facebook.coffee']
-						dest: 'dist'
+						dest: 'src'
 						ext: '.js'
 					},
 					{
@@ -76,24 +76,21 @@ module.exports = (grunt) =>
 			compile:
 				options:
 					optimizeCss: false
+					optimize: 'none'
 					logLevel: 1
-					appDir: "dist"
-					dir: "dist-build"
-					baseUrl: "../dist"
+					name: "Facebook"
+					out: "dist/Facebook.js"
+					baseUrl: "src"
+					exclude: ['EventEmitter']
 					stubModules : ['json', 'text']
 					paths:{
 						'json' : '../components/requirejs-plugins/src/json'
 						'text' : '../components/requirejs-plugins/lib/text'
 						'domReady' : '../components/requirejs-domready/domReady'
-						'data' : '../dist/data.json'
+						'data' : '../src/data.json'
+						'Facebook': '../src/Facebook'
 						'EventEmitter': '../components/EventEmitter/dist/EventEmitter'
 					}
-					modules: [
-						{
-							name: 'Facebook'
-							exclude: ['EventEmitter']
-						}
-					]
 
 		
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
@@ -104,7 +101,7 @@ module.exports = (grunt) =>
 	grunt.loadNpmTasks 'grunt-contrib-connect'
 	grunt.loadNpmTasks 'grunt-contrib-requirejs'
 	
-	grunt.registerTask 'default', ['compile', 'uglify']
+	grunt.registerTask 'default', ['compile', 'requirejs', 'uglify']
 
 	grunt.registerTask 'commit', ['default', 'git']
 	

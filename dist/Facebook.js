@@ -1,3 +1,26 @@
+
+define('text',{});
+define('json',{load: function(id){throw new Error("Dynamic load not allowed: " + id);}});
+define("json!data", function(){ return {
+  "languages": ["user_likes"],
+  "bio": ["user_about_me","friends_about_me"],
+  "birthday": ["user_birthday","friends_birthday"],
+  "education": ["user_education_history", "friends_education_history"],
+  "email": ["email"],
+  "hometown": ["user_hometown", "friends_hometown"],
+  "interested_in": ["user_relationship_details", "friends_relationship_details"],
+  "location": ["user_location", "friends_location"],
+  "political": ["user_religion_politics", "friends_relationship_details"],
+  "favorite_athletes": ["user_likes","friends_likes"],
+  "favorite_teams": ["user_likes","friends_likes"],
+  "quotes": ["user_about_me","friends_about_me"],
+  "relationship_status": ["user_relationships","friends_relationships"],
+  "religion": ["user_religion_politics","friends_religion_politics"],
+  "significant_other": ["user_religion_politics","friends_religion_politics"],
+  "website": ["user_religion_politics","friends_religion_politics"],
+  "work": ["user_religion_politics","friends_religion_politics"]
+};});
+
 (function() {
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = {}.hasOwnProperty,
@@ -5,7 +28,7 @@
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  define(['json!data', 'module', 'EventEmitter'], function(permissionsMap, module, EventEmitter) {
+  define('Facebook',['json!data', 'module', 'EventEmitter'], function(permissionsMap, module, EventEmitter) {
     var Facebook;
 
     Facebook = (function(_super) {

@@ -1,7 +1,0 @@
-
-Facebook.js
-----------------
-/Users/thomaswelton/Sites/bower-facebook/components/requirejs-plugins/lib/text.js
-/Users/thomaswelton/Sites/bower-facebook/components/requirejs-plugins/src/json.js
-json!data
-Facebook.js
