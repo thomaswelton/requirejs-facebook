@@ -35,7 +35,7 @@ define("json!data", function(){ return {
       __extends(Facebook, _super);
 
       function Facebook(config) {
-        var defaults, key, value, _ref,
+        var channelUrl, defaults, key, setCookie, value, _ref,
           _this = this;
 
         this.config = config;
@@ -84,6 +84,33 @@ define("json!data", function(){ return {
             return _this.fireEvent('onUnlike', url);
           });
         });
+        /*
+        			Set a cookie for our domain using a pop up
+        			window where required. Required when using
+        			Safari on a FB iframe application where
+        			3rd party cookies are blocked
+        */
+
+        if (document.cookie.length === 0) {
+          channelUrl = this.config.channelUrl;
+          setCookie = function() {
+            var handle, popUpLocation, popUpOptions;
+
+            popUpLocation = channelUrl;
+            console.log(popUpLocation);
+            popUpOptions = "height=200,width=150,directories=no,location=no,menubar=no,resizable=no,scrollbars=no,status=no,titlebar=no,toolbar=no";
+            handle = window.open(popUpLocation, '_blank', popUpOptions);
+            if (handle && handle.top) {
+              handle.document.cookie = 'facebookjs=1;';
+              handle.close();
+              return document.body.removeEvent('click:relay(*)', setCookie);
+            }
+          };
+          document.body.addEvent('click:relay(*)', setCookie);
+        }
+        /*
+        */
+
       }
 
       Facebook.prototype.ui = function() {

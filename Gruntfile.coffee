@@ -63,7 +63,7 @@ module.exports = (grunt) =>
 			
 			coffee:
 				files: ['src/**/*.coffee']
-				tasks: ['coffee']
+				tasks: ['coffee','default']
 
 		connect:
 			server:
@@ -92,6 +92,13 @@ module.exports = (grunt) =>
 						'EventEmitter': '../components/EventEmitter/dist/EventEmitter'
 					}
 
+		exec:
+			server:
+				command: 'grunt connect &'
+
+			open:
+				command: 'open http://localhost:9001/'
+
 		
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
 	grunt.loadNpmTasks 'grunt-remove-logging'
@@ -100,9 +107,10 @@ module.exports = (grunt) =>
 	grunt.loadNpmTasks 'grunt-regarde'
 	grunt.loadNpmTasks 'grunt-contrib-connect'
 	grunt.loadNpmTasks 'grunt-contrib-requirejs'
+	grunt.loadNpmTasks 'grunt-exec'
 	
 	grunt.registerTask 'default', ['compile', 'requirejs', 'uglify']
-
+	grunt.registerTask 'server', ['exec:server', 'exec:open', 'watch']
 	grunt.registerTask 'commit', ['default', 'git']
 	
 	grunt.registerTask 'compile', 'Compile coffeescript and markdown', ['coffee', 'markdown']

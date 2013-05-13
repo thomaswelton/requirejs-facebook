@@ -37,6 +37,40 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 				FB.Event.subscribe 'edge.remove', (url) =>
 					@fireEvent 'onUnlike', url
 
+
+
+			###
+			Set a cookie for our domain using a pop up
+			window where required. Required when using
+			Safari on a FB iframe application where
+			3rd party cookies are blocked
+			###
+
+			if document.cookie.length is 0
+				channelUrl = @config.channelUrl
+
+				setCookie = () ->
+					## Open popup to the channel.html
+					## set a cookie in the popup
+					
+					popUpLocation = channelUrl
+					console.log popUpLocation
+					popUpOptions = "height=200,width=150,directories=no,location=no,menubar=no,resizable=no,scrollbars=no,status=no,titlebar=no,toolbar=no"
+					handle = window.open popUpLocation, '_blank', popUpOptions
+
+					if handle && handle.top
+						## popup has opened
+						handle.document.cookie = 'facebookjs=1;'
+						handle.close()
+
+						document.body.removeEvent 'click:relay(*)', setCookie
+
+
+				document.body.addEvent 'click:relay(*)', setCookie
+
+			###
+			###
+
 		ui: (args...) =>
 			@onReady (FB) ->
 				FB.ui args...

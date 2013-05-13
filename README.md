@@ -65,3 +65,9 @@ Wrapper for the [FB.Canvas.setSize method](http://developers.facebook.com/docs/r
 * onUnlike
 * fbInit
 
+
+
+v 0.0.1
+
+Safari cookie fix
+
