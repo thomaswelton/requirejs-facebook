@@ -4,6 +4,10 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 			## Init EventEmitter
 			super()
 
+			## Used as a default for functions 
+			## That accept a callback
+			@cb = () ->
+
 			## Init Facebook
 			console.log 'Facebook init'
 
@@ -75,15 +79,15 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 			@onReady (FB) ->
 				FB.ui args...
 		
-		logout: (cb) =>
+		logout: (cb = @cb) =>
 			@onReady (FB) =>
 				console.log @loginStatus
 				if @loginStatus?.status? and @loginStatus.status is 'connected'	
 					FB.logout (response) ->
-						cb response if typeof cb is 'function'
+						cb response
 				else
 					console.warn 'User is already logged out'
-					cb() if typeof cb is 'function'
+					cb()
 
 		hasPermissions: (perms) =>
 			return true if perms.trim().length is 0
@@ -98,14 +102,14 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 		
 			return grantedPerms.length is permsArray.length
 
-		requestPermission: (scope, cb) =>
+		requestPermission: (scope, cb = @cb) =>
 			FB.ui
 				method: 'oauth'
 				scope: scope,
 				display: 'popup'
 			, () =>
 				@getPermissions()
-				cb() if typeof cb is 'function'
+				cb()
 
 		login: (obj) =>
 			scope = if obj.scope? then obj.scope.trim() else ''
@@ -136,25 +140,25 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 							onCancel()
 					, scope
 
-		getLoginStatus: (cb) =>
+		getLoginStatus: (cb = @cb) =>
 			FB.getLoginStatus (@loginStatus) =>
 				console.log "Login Status:", @loginStatus
-				cb @loginStatus if typeof cb is 'function'
+				cb @loginStatus
 
-		getPermissions: (cb) =>
+		getPermissions: (cb = @cb) =>
 			@onReady (FB) =>
 				FB.api '/me?fields=permissions', (response) =>
 					@grantedPermissions = (permission for permission of response.permissions.data[0])
-					cb @grantedPermissions if typeof cb is 'function'
+					cb @grantedPermissions
 
-		getUserInfo: (data, cb) =>
+		getUserInfo: (data, cb = @cb) =>
 			fields = data.join(',')
 
 			@onReady (FB) =>
 				FB.api "/me?fields=#{fields}", (response) =>
-					cb response if typeof cb is 'function'
+					cb response
 
-		requireUserInfo: (data, cb) =>
+		requireUserInfo: (data, cb = @cb) =>
 			requiredPermissions = (permissionsMap[field] for field in data when permissionsMap[field]?)
 			requiredScope = requiredPermissions.join(',')
 
@@ -171,7 +175,7 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 					@requestPermission requiredScope, getInfo
 				
 
-		onReady: (callback) =>
+		onReady: (callback = @cb) =>
 			if FB?
 				callback FB
 			else
@@ -231,7 +235,7 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 			protocol = if location.protocol is 'https:' then 'https:' else 'http:'
 			requirejs [protocol + '//connect.facebook.net/en_US/all.js']
 
-		renderPlugins: (cb) ->
+		renderPlugins: (cb = @cb) ->
 			@onReady () ->
 				## Parse only unrendered plugins for browser that support querySelectorAll
 				if document.querySelectorAll?
@@ -252,7 +256,7 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 					FB.XFBML.parse document.body, cb
 
 		## http://developers.facebook.com/docs/reference/javascript/FB.Canvas.getPageInfo/
-		getCanvasInfo: (cb) ->
+		getCanvasInfo: (cb = @cb) ->
 			@onReady (FB) ->
 				FB.Canvas.getPageInfo (info) -> cb info
 

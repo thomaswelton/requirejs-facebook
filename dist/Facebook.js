@@ -53,6 +53,7 @@ define("json!data", function(){ return {
         this.logout = __bind(this.logout, this);
         this.ui = __bind(this.ui, this);
         Facebook.__super__.constructor.call(this);
+        this.cb = function() {};
         console.log('Facebook init');
         if (this.config.appId.trim().length === 0) {
           console.warn('No Facebook app ID found in config');
@@ -125,21 +126,20 @@ define("json!data", function(){ return {
       Facebook.prototype.logout = function(cb) {
         var _this = this;
 
+        if (cb == null) {
+          cb = this.cb;
+        }
         return this.onReady(function(FB) {
           var _ref;
 
           console.log(_this.loginStatus);
           if ((((_ref = _this.loginStatus) != null ? _ref.status : void 0) != null) && _this.loginStatus.status === 'connected') {
             return FB.logout(function(response) {
-              if (typeof cb === 'function') {
-                return cb(response);
-              }
+              return cb(response);
             });
           } else {
             console.warn('User is already logged out');
-            if (typeof cb === 'function') {
-              return cb();
-            }
+            return cb();
           }
         });
       };
@@ -173,15 +173,16 @@ define("json!data", function(){ return {
       Facebook.prototype.requestPermission = function(scope, cb) {
         var _this = this;
 
+        if (cb == null) {
+          cb = this.cb;
+        }
         return FB.ui({
           method: 'oauth',
           scope: scope,
           display: 'popup'
         }, function() {
           _this.getPermissions();
-          if (typeof cb === 'function') {
-            return cb();
-          }
+          return cb();
         });
       };
 
@@ -219,18 +220,22 @@ define("json!data", function(){ return {
       Facebook.prototype.getLoginStatus = function(cb) {
         var _this = this;
 
+        if (cb == null) {
+          cb = this.cb;
+        }
         return FB.getLoginStatus(function(loginStatus) {
           _this.loginStatus = loginStatus;
           console.log("Login Status:", _this.loginStatus);
-          if (typeof cb === 'function') {
-            return cb(_this.loginStatus);
-          }
+          return cb(_this.loginStatus);
         });
       };
 
       Facebook.prototype.getPermissions = function(cb) {
         var _this = this;
 
+        if (cb == null) {
+          cb = this.cb;
+        }
         return this.onReady(function(FB) {
           return FB.api('/me?fields=permissions', function(response) {
             var permission;
@@ -244,9 +249,7 @@ define("json!data", function(){ return {
               }
               return _results;
             })();
-            if (typeof cb === 'function') {
-              return cb(_this.grantedPermissions);
-            }
+            return cb(_this.grantedPermissions);
           });
         });
       };
@@ -255,12 +258,13 @@ define("json!data", function(){ return {
         var fields,
           _this = this;
 
+        if (cb == null) {
+          cb = this.cb;
+        }
         fields = data.join(',');
         return this.onReady(function(FB) {
           return FB.api("/me?fields=" + fields, function(response) {
-            if (typeof cb === 'function') {
-              return cb(response);
-            }
+            return cb(response);
           });
         });
       };
@@ -269,6 +273,9 @@ define("json!data", function(){ return {
         var field, getInfo, requiredPermissions, requiredScope,
           _this = this;
 
+        if (cb == null) {
+          cb = this.cb;
+        }
         requiredPermissions = (function() {
           var _i, _len, _results;
 
@@ -302,6 +309,9 @@ define("json!data", function(){ return {
       Facebook.prototype.onReady = function(callback) {
         var _this = this;
 
+        if (callback == null) {
+          callback = this.cb;
+        }
         if (typeof FB !== "undefined" && FB !== null) {
           return callback(FB);
         } else {
@@ -386,6 +396,9 @@ define("json!data", function(){ return {
       };
 
       Facebook.prototype.renderPlugins = function(cb) {
+        if (cb == null) {
+          cb = this.cb;
+        }
         return this.onReady(function() {
           var cbStack, plugin, plugins, unrenderedCount, _i, _len, _results;
 
@@ -410,6 +423,9 @@ define("json!data", function(){ return {
       };
 
       Facebook.prototype.getCanvasInfo = function(cb) {
+        if (cb == null) {
+          cb = this.cb;
+        }
         return this.onReady(function(FB) {
           return FB.Canvas.getPageInfo(function(info) {
             return cb(info);
