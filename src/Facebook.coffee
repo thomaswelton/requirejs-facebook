@@ -3,6 +3,11 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 		constructor: (@config) ->
 			## Init EventEmitter
 			super()
+			
+			if !@config.appId?
+				console.warn 'No Facebook app ID found in requirejs module config'
+				return false
+
 
 			## Used as a default for functions 
 			## That accept a callback

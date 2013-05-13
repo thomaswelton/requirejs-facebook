@@ -53,6 +53,10 @@ define("json!data", function(){ return {
         this.logout = __bind(this.logout, this);
         this.ui = __bind(this.ui, this);
         Facebook.__super__.constructor.call(this);
+        if (this.config.appId == null) {
+          console.warn('No Facebook app ID found in requirejs module config');
+          return false;
+        }
         this.cb = function() {};
         console.log('Facebook init');
         if (this.config.appId.trim().length === 0) {
