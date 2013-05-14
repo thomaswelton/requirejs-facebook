@@ -10,7 +10,7 @@ module.exports = (grunt) =>
 						expand: true
 						cwd: 'src'
 						src: ['Facebook.coffee']
-						dest: 'src'
+						dest: 'dist'
 						ext: '.js'
 					},
 					{
@@ -72,26 +72,6 @@ module.exports = (grunt) =>
 					port: 9001
 					base: ''
 
-		requirejs:
-			compile:
-				options:
-					optimizeCss: false
-					optimize: 'none'
-					logLevel: 1
-					name: "Facebook"
-					out: "dist/Facebook.js"
-					baseUrl: "src"
-					exclude: ['EventEmitter']
-					stubModules : ['json', 'text']
-					paths:{
-						'json' : '../components/requirejs-plugins/src/json'
-						'text' : '../components/requirejs-plugins/lib/text'
-						'domReady' : '../components/requirejs-domready/domReady'
-						'data' : '../src/data.json'
-						'Facebook': '../src/Facebook'
-						'EventEmitter': '../components/EventEmitter/dist/EventEmitter'
-					}
-
 		exec:
 			server:
 				command: 'grunt connect &'
@@ -106,10 +86,9 @@ module.exports = (grunt) =>
 	grunt.loadNpmTasks 'grunt-markdown'
 	grunt.loadNpmTasks 'grunt-regarde'
 	grunt.loadNpmTasks 'grunt-contrib-connect'
-	grunt.loadNpmTasks 'grunt-contrib-requirejs'
 	grunt.loadNpmTasks 'grunt-exec'
 	
-	grunt.registerTask 'default', ['compile', 'requirejs', 'uglify']
+	grunt.registerTask 'default', ['compile', 'uglify']
 	grunt.registerTask 'server', ['exec:server', 'exec:open', 'watch']
 	grunt.registerTask 'commit', ['default', 'git']
 	
