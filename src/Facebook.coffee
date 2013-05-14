@@ -170,7 +170,8 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 			if @loginStatus.status isnt 'connected'
 				@login 
 					scope: requiredScope
-					onLogin: getInfo
+					onLogin: () =>
+						@getPermissions getInfo
 			else
 				if @hasPermissions requiredScope
 					getInfo()
