@@ -147,18 +147,29 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 				console.log "Login Status:", @loginStatus
 				cb @loginStatus
 
-		getPermissions: (cb = @cb) =>
+		fbApi: (query, cb = @cb) =>
 			@onReady (FB) =>
 				FB.api '/me?fields=permissions', (response) =>
-					@grantedPermissions = (permission for permission of response.permissions.data[0])
-					cb @grantedPermissions
+					if response.error?
+						console.warn response.error.message
+					
+					cb response
+					
+		getPermissions: (cb = @cb) =>
+			@fbApi '/me?fields=permissions', (response) =>
+				if response.error?
+					console.warn response.error.message
+					cb false
+					return
+
+				@grantedPermissions = (permission for permission of response.permissions.data[0])
+				cb @grantedPermissions
 
 		getUserInfo: (data, cb = @cb) =>
 			fields = data.join(',')
 
-			@onReady (FB) =>
-				FB.api "/me?fields=#{fields}", (response) =>
-					cb response
+			@fbApi "/me?fields=#{fields}", (response) =>
+				cb response
 
 		requireUserInfo: (data, cb = @cb) =>
 			requiredPermissions = (@permissionsMap[field] for field in data when @permissionsMap[field]?)
