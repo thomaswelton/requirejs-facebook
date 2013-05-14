@@ -14,12 +14,10 @@ require ['Facebook', 'mootools', 'domReady!'], (Facebook) ->
 
 	Facebook.addEvent 'onAuthChange', (loggedIn) ->
 		if loggedIn
-			console.log 'do logged in stuff'
-
-			Facebook.getUserInfo ['name','hometown'], (response) ->
-				console.log 'I did logged in stuff', response
+			console.log 'The user logged in'
 		else
-			console.log 'do logged out stuff'
+			console.log 'The user logged out'
+
 
 	$$('form.permissions')[0].addEvent 'submit', (event) ->
 		form = event.target
