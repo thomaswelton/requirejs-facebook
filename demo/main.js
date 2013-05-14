@@ -22,17 +22,31 @@
     });
     Facebook.addEvent('onAuthChange', function(loggedIn) {
       if (loggedIn) {
-        console.log('do logged in stuff');
-        return Facebook.getUserInfo(['name', 'hometown'], function(response) {
-          return console.log('I did logged in stuff', response);
-        });
+        return console.log('The user logged in');
       } else {
-        return console.log('do logged out stuff');
+        return console.log('The user logged out');
       }
     });
-    return $('getEmail').addEvent('click', function(event) {
-      return Facebook.requireUserInfo(['email', 'languages', 'name', 'hometown', 'religion', 'relationship_status'], function(response) {
-        return console.log(response);
+    return $$('form.permissions')[0].addEvent('submit', function(event) {
+      var checked, el, form, requestedFields, resultsOutput;
+
+      form = event.target;
+      resultsOutput = form.getElement('textarea');
+      event.preventDefault();
+      checked = form.getElements('input:checked');
+      requestedFields = (function() {
+        var _i, _len, _results;
+
+        _results = [];
+        for (_i = 0, _len = checked.length; _i < _len; _i++) {
+          el = checked[_i];
+          _results.push(el.getProperty('value'));
+        }
+        return _results;
+      })();
+      return Facebook.requireUserInfo(requestedFields, function(response) {
+        console.log(response);
+        return resultsOutput.innerText = JSON.encode(response);
       });
     });
   });

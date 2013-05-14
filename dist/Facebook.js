@@ -24,6 +24,7 @@
         this.requireUserInfo = __bind(this.requireUserInfo, this);
         this.getUserInfo = __bind(this.getUserInfo, this);
         this.getPermissions = __bind(this.getPermissions, this);
+        this.fbApi = __bind(this.fbApi, this);
         this.getLoginStatus = __bind(this.getLoginStatus, this);
         this.login = __bind(this.login, this);
         this.requestPermission = __bind(this.requestPermission, this);
@@ -188,9 +189,7 @@
           return this.onReady(function(FB) {
             return FB.login(function(response) {
               if (response.authResponse) {
-                if (obj.onLogin != null) {
-                  return obj.onLogin(response.authResponse);
-                }
+                return onLogin(response.authResponse);
               } else {
                 return onCancel();
               }
@@ -212,7 +211,7 @@
         });
       };
 
-      Facebook.prototype.getPermissions = function(cb) {
+      Facebook.prototype.fbApi = function(query, cb) {
         var _this = this;
 
         if (cb == null) {
@@ -220,19 +219,38 @@
         }
         return this.onReady(function(FB) {
           return FB.api('/me?fields=permissions', function(response) {
-            var permission;
-
-            _this.grantedPermissions = (function() {
-              var _results;
-
-              _results = [];
-              for (permission in response.permissions.data[0]) {
-                _results.push(permission);
-              }
-              return _results;
-            })();
-            return cb(_this.grantedPermissions);
+            if (response.error != null) {
+              console.warn(response.error.message);
+            }
+            return cb(response);
           });
+        });
+      };
+
+      Facebook.prototype.getPermissions = function(cb) {
+        var _this = this;
+
+        if (cb == null) {
+          cb = this.cb;
+        }
+        return this.fbApi('/me?fields=permissions', function(response) {
+          var permission;
+
+          if (response.error != null) {
+            console.warn(response.error.message);
+            cb(false);
+            return;
+          }
+          _this.grantedPermissions = (function() {
+            var _results;
+
+            _results = [];
+            for (permission in response.permissions.data[0]) {
+              _results.push(permission);
+            }
+            return _results;
+          })();
+          return cb(_this.grantedPermissions);
         });
       };
 
@@ -244,10 +262,8 @@
           cb = this.cb;
         }
         fields = data.join(',');
-        return this.onReady(function(FB) {
-          return FB.api("/me?fields=" + fields, function(response) {
-            return cb(response);
-          });
+        return this.fbApi("/me?fields=" + fields, function(response) {
+          return cb(response);
         });
       };
 
@@ -277,7 +293,9 @@
         if (this.loginStatus.status !== 'connected') {
           return this.login({
             scope: requiredScope,
-            onLogin: getInfo
+            onLogin: function() {
+              return _this.getPermissions(getInfo);
+            }
           });
         } else {
           if (this.hasPermissions(requiredScope)) {
@@ -429,22 +447,22 @@
     })(EventEmitter);
     permissionsMap = {
       languages: ["user_likes"],
-      bio: ["user_about_me", "friends_about_me"],
-      birthday: ["user_birthday", "friends_birthday"],
-      education: ["user_education_history", "friends_education_history"],
+      bio: ["user_about_me"],
+      birthday: ["user_birthday"],
+      education: ["user_education_history"],
       email: ["email"],
-      hometown: ["user_hometown", "friends_hometown"],
-      interested_in: ["user_relationship_details", "friends_relationship_details"],
-      location: ["user_location", "friends_location"],
-      political: ["user_religion_politics", "friends_relationship_details"],
-      favorite_athletes: ["user_likes", "friends_likes"],
-      favorite_teams: ["user_likes", "friends_likes"],
-      quotes: ["user_about_me", "friends_about_me"],
-      relationship_status: ["user_relationships", "friends_relationships"],
-      religion: ["user_religion_politics", "friends_religion_politics"],
-      significant_other: ["user_religion_politics", "friends_religion_politics"],
-      website: ["user_religion_politics", "friends_religion_politics"],
-      work: ["user_religion_politics", "friends_religion_politics"]
+      hometown: ["user_hometown"],
+      interested_in: ["user_relationship_details"],
+      location: ["user_location"],
+      political: ["user_religion_politics"],
+      favorite_athletes: ["user_likes"],
+      favorite_teams: ["user_likes"],
+      quotes: ["user_about_me"],
+      relationship_status: ["user_relationships"],
+      religion: ["user_religion_politics"],
+      significant_other: ["user_religion_politics"],
+      website: ["user_religion_politics"],
+      work: ["user_religion_politics"]
     };
     return new Facebook(permissionsMap, module.config());
   });
