@@ -137,8 +137,7 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 				@onReady (FB) ->
 					FB.login (response) ->
 						if response.authResponse
-							if obj.onLogin?
-								obj.onLogin response.authResponse
+							onLogin response.authResponse
 						else 
 							onCancel()
 					, scope
