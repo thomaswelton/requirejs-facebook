@@ -1,6 +1,6 @@
-define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEmitter) ->
+define ['module', 'EventEmitter'], (module, EventEmitter) ->
 	class Facebook extends EventEmitter
-		constructor: (@config) ->
+		constructor: (@permissionsMap, @config) ->
 			## Init EventEmitter
 			super()
 			
@@ -45,8 +45,6 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 
 				FB.Event.subscribe 'edge.remove', (url) =>
 					@fireEvent 'onUnlike', url
-
-
 
 			###
 			Set a cookie for our domain using a pop up
@@ -164,7 +162,7 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 					cb response
 
 		requireUserInfo: (data, cb = @cb) =>
-			requiredPermissions = (permissionsMap[field] for field in data when permissionsMap[field]?)
+			requiredPermissions = (@permissionsMap[field] for field in data when @permissionsMap[field]?)
 			requiredScope = requiredPermissions.join(',')
 
 			getInfo = () => @getUserInfo data, cb
@@ -270,8 +268,27 @@ define ['json!data', 'module', 'EventEmitter'], (permissionsMap, module, EventEm
 				FB.Canvas.setSize
 					width: width
 					height: height
-				    
+		
+	
+	permissionsMap =
+		languages: ["user_likes"]
+		bio: ["user_about_me", "friends_about_me"]
+		birthday: ["user_birthday", "friends_birthday"]
+		education: ["user_education_history", "friends_education_history"]
+		email: ["email"]
+		hometown: ["user_hometown", "friends_hometown"]
+		interested_in: ["user_relationship_details", "friends_relationship_details"]
+		location: ["user_location", "friends_location"]
+		political: ["user_religion_politics", "friends_relationship_details"]
+		favorite_athletes: ["user_likes", "friends_likes"]
+		favorite_teams: ["user_likes", "friends_likes"]
+		quotes: ["user_about_me", "friends_about_me"]
+		relationship_status: ["user_relationships", "friends_relationships"]
+		religion: ["user_religion_politics", "friends_religion_politics"]
+		significant_other: ["user_religion_politics", "friends_religion_politics"]
+		website: ["user_religion_politics", "friends_religion_politics"]
+		work: ["user_religion_politics", "friends_religion_politics"]		    
 
 	## Create and return a new instance of Facebook
 	## module.config() returns a JSON object as defined in requirejs.config.Facebook
-	new Facebook module.config()
+	new Facebook permissionsMap, module.config()

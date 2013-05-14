@@ -5,16 +5,17 @@
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  define(['json!data', 'module', 'EventEmitter'], function(permissionsMap, module, EventEmitter) {
-    var Facebook;
+  define(['module', 'EventEmitter'], function(module, EventEmitter) {
+    var Facebook, permissionsMap;
 
     Facebook = (function(_super) {
       __extends(Facebook, _super);
 
-      function Facebook(config) {
+      function Facebook(permissionsMap, config) {
         var channelUrl, defaults, key, setCookie, value, _ref,
           _this = this;
 
+        this.permissionsMap = permissionsMap;
         this.config = config;
         this.fbiFrameInit = __bind(this.fbiFrameInit, this);
         this.fbInit = __bind(this.fbInit, this);
@@ -263,12 +264,12 @@
           _results = [];
           for (_i = 0, _len = data.length; _i < _len; _i++) {
             field = data[_i];
-            if (permissionsMap[field] != null) {
-              _results.push(permissionsMap[field]);
+            if (this.permissionsMap[field] != null) {
+              _results.push(this.permissionsMap[field]);
             }
           }
           return _results;
-        })();
+        }).call(this);
         requiredScope = requiredPermissions.join(',');
         getInfo = function() {
           return _this.getUserInfo(data, cb);
@@ -426,7 +427,26 @@
       return Facebook;
 
     })(EventEmitter);
-    return new Facebook(module.config());
+    permissionsMap = {
+      languages: ["user_likes"],
+      bio: ["user_about_me", "friends_about_me"],
+      birthday: ["user_birthday", "friends_birthday"],
+      education: ["user_education_history", "friends_education_history"],
+      email: ["email"],
+      hometown: ["user_hometown", "friends_hometown"],
+      interested_in: ["user_relationship_details", "friends_relationship_details"],
+      location: ["user_location", "friends_location"],
+      political: ["user_religion_politics", "friends_relationship_details"],
+      favorite_athletes: ["user_likes", "friends_likes"],
+      favorite_teams: ["user_likes", "friends_likes"],
+      quotes: ["user_about_me", "friends_about_me"],
+      relationship_status: ["user_relationships", "friends_relationships"],
+      religion: ["user_religion_politics", "friends_religion_politics"],
+      significant_other: ["user_religion_politics", "friends_religion_politics"],
+      website: ["user_religion_politics", "friends_religion_politics"],
+      work: ["user_religion_politics", "friends_religion_politics"]
+    };
+    return new Facebook(permissionsMap, module.config());
   });
 
 }).call(this);
