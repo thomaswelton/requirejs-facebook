@@ -21,10 +21,23 @@ require ['Facebook', 'mootools', 'domReady!'], (Facebook) ->
 		else
 			console.log 'do logged out stuff'
 
+	$$('form.permissions')[0].addEvent 'submit', (event) ->
+		form = event.target
+		resultsOutput = form.getElement 'textarea'
 
-	$('getEmail').addEvent 'click', (event) ->
-		Facebook.requireUserInfo ['email','languages','name','hometown','religion','relationship_status'], (response) ->
+		event.preventDefault()
+
+		## Get the checked fields
+		checked = form.getElements 'input:checked'
+		requestedFields = (el.getProperty('value') for el in checked)
+
+		## Use the fields array to get data from Facebook
+		Facebook.requireUserInfo requestedFields, (response) ->
 			console.log response
+			resultsOutput.innerText = JSON.encode response
+
+
+
 
 
 

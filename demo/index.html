@@ -29,7 +29,108 @@
 
 	<button id="logout">Logout</button>
 	
-	<!-- Prompt for an additional permission -->
-	<button id="getEmail">Get Email</button>
+
+	<form class="permissions" method="get">
+		<fieldset style="width:45%; float:left;">
+			<legend>User Information</legend>
+			
+			<ul>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="languages">languages
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="bio">bio
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="birthday">birthday
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="education">education
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="email">email
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="hometown">hometown
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="interested_in">interested_in
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="location">location
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="political">political
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="favorite_athletes">favorite_athletes
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="favorite_teams">favorite_teams
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="quotes">quotes
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="relationship_status">relationship_status
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="religion">religion
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="significant_other">significant_other
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="website">website
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="checkbox" name="field" value="work">work
+					</label>
+				</li>
+			</ul>
+
+		</fieldset>
+		<fieldset style="width:45%; float:left;">
+			<legend>Results</legend>
+			<textarea style="width:100%; height:500px;">
+				
+			</textarea>
+		</fieldset>
+
+		<button type="submit">Get Data</button>
+	</form>
 </body>
 </html>
