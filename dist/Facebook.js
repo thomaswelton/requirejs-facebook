@@ -218,7 +218,7 @@
           cb = this.cb;
         }
         return this.onReady(function(FB) {
-          return FB.api('/me?fields=permissions', function(response) {
+          return FB.api(query, function(response) {
             if (response.error != null) {
               console.warn(response.error.message);
             }

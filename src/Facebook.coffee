@@ -149,7 +149,7 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 
 		fbApi: (query, cb = @cb) =>
 			@onReady (FB) =>
-				FB.api '/me?fields=permissions', (response) =>
+				FB.api query, (response) =>
 					if response.error?
 						console.warn response.error.message
 					
