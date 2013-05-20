@@ -264,7 +264,7 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 						cb() if --unrenderedCount is 0
 
 					for plugin in plugins
-						FB.XFBML.parse plugin, cbStack
+						FB.XFBML.parse plugin.parentNode, cbStack
 
 				else
 					FB.XFBML.parse document.body, cb
