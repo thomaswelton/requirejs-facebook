@@ -413,7 +413,7 @@
             _results = [];
             for (_i = 0, _len = plugins.length; _i < _len; _i++) {
               plugin = plugins[_i];
-              _results.push(FB.XFBML.parse(plugin, cbStack));
+              _results.push(FB.XFBML.parse(plugin.parentNode, cbStack));
             }
             return _results;
           } else {
