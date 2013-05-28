@@ -229,10 +229,8 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 				height: document.body.offsetHeight
 			
 			if @config.autoResize? and @config.autoResize
-				resizeInterval = () ->
-					FB.Canvas.setSize
-						width: 810
-						height: document.body.offsetHeight
+				resizeInterval = () =>
+					@setCanvasSize 810, document.body.offsetHeight	
 
 				window.setInterval resizeInterval, 500
 

@@ -362,7 +362,8 @@
       };
 
       Facebook.prototype.fbiFrameInit = function() {
-        var resizeInterval;
+        var resizeInterval,
+          _this = this;
 
         FB.Canvas.scrollTo(0, 0);
         FB.Canvas.setSize({
@@ -371,10 +372,7 @@
         });
         if ((this.config.autoResize != null) && this.config.autoResize) {
           resizeInterval = function() {
-            return FB.Canvas.setSize({
-              width: 810,
-              height: document.body.offsetHeight
-            });
+            return _this.setCanvasSize(810, document.body.offsetHeight);
           };
           return window.setInterval(resizeInterval, 500);
         }
