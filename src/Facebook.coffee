@@ -78,9 +78,11 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 			###
 			###
 
-		ui: (args...) =>
+		getAppId: () => @config.appId
+
+		ui: (data, cb = @cb) =>
 			@onReady (FB) ->
-				FB.ui args...
+				FB.ui data, cb
 		
 		logout: (cb = @cb) =>
 			@onReady (FB) =>
