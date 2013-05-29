@@ -42,7 +42,7 @@ Or can be access through helpers and wrappers
 
 ## Helpers
 
-`Facebook.UI`
+`Facebook.ui`
 FB onReady wrapper for the [FB.ui method](https://developers.facebook.com/docs/reference/javascript/FB.ui/)
 
 `Facebook.login`
