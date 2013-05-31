@@ -433,6 +433,17 @@
         });
       };
 
+      Facebook.prototype.getCanvasUrl = function(path) {
+        if (path == null) {
+          path = '';
+        }
+        if (this.config.namespace != null) {
+          return "https://apps.facebook.com/" + this.config.namespace + "/" + path;
+        } else {
+          return window.location.protocol + "//" + window.location.hostname + "/" + path;
+        }
+      };
+
       Facebook.prototype.getCanvasInfo = function(cb) {
         if (cb == null) {
           cb = this.cb;
