@@ -30,21 +30,6 @@ module.exports = (grunt) =>
 				dest: 'dist'
 				ext: '.js'
 
-		uglify:
-			options:
-				mangle: false
-				compress: true
-				banner: """/*!
-						<%= pkg.name %> v<%= pkg.version %> 
-						<%= pkg.description %>
-						Build time: #{(new Date()).toString('dddd, MMMM ,yyyy')}
-						*/\n\n"""
-					
-			javascript:
-				files: {
-					'dist/Facebook.min.js': 'dist/Facebook.js'
-				}
-
 		markdown:
 			readmes:
 				files: [
@@ -81,14 +66,13 @@ module.exports = (grunt) =>
 
 		
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
-	grunt.loadNpmTasks 'grunt-remove-logging'
 	grunt.loadNpmTasks 'grunt-contrib-uglify'
 	grunt.loadNpmTasks 'grunt-markdown'
 	grunt.loadNpmTasks 'grunt-regarde'
 	grunt.loadNpmTasks 'grunt-contrib-connect'
 	grunt.loadNpmTasks 'grunt-exec'
 	
-	grunt.registerTask 'default', ['compile', 'uglify']
+	grunt.registerTask 'default', ['compile']
 	grunt.registerTask 'server', ['exec:server', 'exec:open', 'watch']
 	grunt.registerTask 'commit', ['default', 'git']
 	

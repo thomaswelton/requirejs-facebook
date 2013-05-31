@@ -153,25 +153,35 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 			@onReady (FB) =>
 				FB.api query, (response) =>
 					if response.error?
-						console.warn response.error.message
-					
+						console.warn response.error.message, "query: #{query}"
+						return cb false
+
 					cb response
 					
 		getPermissions: (cb = @cb) =>
 			@fbApi '/me?fields=permissions', (response) =>
-				if response.error?
-					console.warn response.error.message
+				if response
+					@grantedPermissions = (permission for permission of response.permissions.data[0])
+					cb @grantedPermissions
+				else
 					cb false
-					return
 
-				@grantedPermissions = (permission for permission of response.permissions.data[0])
-				cb @grantedPermissions
 
 		getUserInfo: (data, cb = @cb) =>
-			fields = data.join(',')
+			if !@loginStatus?
+				## If the user log status is unknown wait and run on callback
+				@once 'onStatusChange', () =>
+					## Call ourself with the info passed to us
+					@getUserInfo data, cb
 
-			@fbApi "/me?fields=#{fields}", (response) =>
-				cb response
+			else if @loginStatus.status is 'connected'
+				## If the user is know and /me is valid
+				fields = data.join(',')
+				@fbApi "/me?fields=#{fields}", (response) =>
+					cb response
+
+			else
+				cb {}	
 
 		requireUserInfo: (data, cb = @cb) =>
 			requiredPermissions = (@permissionsMap[field] for field in data when @permissionsMap[field]?)
@@ -192,10 +202,11 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 				
 
 		onReady: (callback = @cb) =>
-			if FB?
+			if @fbReady?
 				callback FB
 			else
-				@once 'fbInit', () => callback FB
+				@once 'fbInit', () =>
+					callback FB
 
 		fbAsyncInit: () =>
 			@fbInit()
@@ -203,7 +214,8 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 
 		fbInit: () =>
 			FB.init @config
-				
+			@fbReady = true
+
 			return if @config.appId.trim().length is 0
 
 			@getLoginStatus (loginStatus) =>

@@ -224,7 +224,8 @@
         return this.onReady(function(FB) {
           return FB.api(query, function(response) {
             if (response.error != null) {
-              console.warn(response.error.message);
+              console.warn(response.error.message, "query: " + query);
+              return cb(false);
             }
             return cb(response);
           });
@@ -240,21 +241,20 @@
         return this.fbApi('/me?fields=permissions', function(response) {
           var permission;
 
-          if (response.error != null) {
-            console.warn(response.error.message);
-            cb(false);
-            return;
-          }
-          _this.grantedPermissions = (function() {
-            var _results;
+          if (response) {
+            _this.grantedPermissions = (function() {
+              var _results;
 
-            _results = [];
-            for (permission in response.permissions.data[0]) {
-              _results.push(permission);
-            }
-            return _results;
-          })();
-          return cb(_this.grantedPermissions);
+              _results = [];
+              for (permission in response.permissions.data[0]) {
+                _results.push(permission);
+              }
+              return _results;
+            })();
+            return cb(_this.grantedPermissions);
+          } else {
+            return cb(false);
+          }
         });
       };
 
@@ -265,10 +265,18 @@
         if (cb == null) {
           cb = this.cb;
         }
-        fields = data.join(',');
-        return this.fbApi("/me?fields=" + fields, function(response) {
-          return cb(response);
-        });
+        if (this.loginStatus == null) {
+          return this.once('onStatusChange', function() {
+            return _this.getUserInfo(data, cb);
+          });
+        } else if (this.loginStatus.status === 'connected') {
+          fields = data.join(',');
+          return this.fbApi("/me?fields=" + fields, function(response) {
+            return cb(response);
+          });
+        } else {
+          return cb({});
+        }
       };
 
       Facebook.prototype.requireUserInfo = function(data, cb) {
@@ -316,7 +324,7 @@
         if (callback == null) {
           callback = this.cb;
         }
-        if (typeof FB !== "undefined" && FB !== null) {
+        if (this.fbReady != null) {
           return callback(FB);
         } else {
           return this.once('fbInit', function() {
@@ -336,6 +344,7 @@
         var _this = this;
 
         FB.init(this.config);
+        this.fbReady = true;
         if (this.config.appId.trim().length === 0) {
           return;
         }
