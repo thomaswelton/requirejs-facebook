@@ -281,6 +281,12 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 				else
 					FB.XFBML.parse document.body, cb
 
+		getCanvasUrl: (path = '') ->
+			if @config.namespace?
+				return "https://apps.facebook.com/#{@config.namespace}/#{path}"
+			else
+				return window.location.protocol + "//" + window.location.hostname + "/" + path
+
 		## http://developers.facebook.com/docs/reference/javascript/FB.Canvas.getPageInfo/
 		getCanvasInfo: (cb = @cb) ->
 			@onReady (FB) ->
