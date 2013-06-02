@@ -53,7 +53,7 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 			3rd party cookies are blocked
 			###
 
-			if document.cookie.length is 0
+			if window.self isnt window.top && document.cookie.length is 0
 				channelUrl = @config.channelUrl
 
 				setCookie = () ->

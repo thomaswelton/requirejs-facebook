@@ -75,7 +75,7 @@
         			3rd party cookies are blocked
         */
 
-        if (document.cookie.length === 0) {
+        if (window.self !== window.top && document.cookie.length === 0) {
           channelUrl = this.config.channelUrl;
           setCookie = function() {
             var handle, popUpLocation, popUpOptions;
