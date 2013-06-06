@@ -6,14 +6,12 @@
 
   define(['module', 'EventEmitter'], function(module, EventEmitter) {
     var Facebook, permissionsMap;
-
     Facebook = (function(_super) {
       __extends(Facebook, _super);
 
       function Facebook(permissionsMap, config) {
         var channelUrl, defaults, key, setCookie, value, _ref,
           _this = this;
-
         this.permissionsMap = permissionsMap;
         this.config = config;
         this.fbiFrameInit = __bind(this.fbiFrameInit, this);
@@ -79,7 +77,6 @@
           channelUrl = this.config.channelUrl;
           setCookie = function() {
             var handle, popUpLocation, popUpOptions;
-
             popUpLocation = channelUrl;
             console.log(popUpLocation);
             popUpOptions = "height=200,width=150,directories=no,location=no,menubar=no,resizable=no,scrollbars=no,status=no,titlebar=no,toolbar=no";
@@ -112,13 +109,11 @@
 
       Facebook.prototype.logout = function(cb) {
         var _this = this;
-
         if (cb == null) {
           cb = this.cb;
         }
         return this.onReady(function(FB) {
           var _ref;
-
           console.log(_this.loginStatus);
           if ((((_ref = _this.loginStatus) != null ? _ref.status : void 0) != null) && _this.loginStatus.status === 'connected') {
             return FB.logout(function(response) {
@@ -133,14 +128,12 @@
 
       Facebook.prototype.hasPermissions = function(perms) {
         var grantedPerms, intersection, permsArray;
-
         if (perms.trim().length === 0) {
           return true;
         }
         permsArray = perms.split(',');
         intersection = function(a, b) {
           var value, _i, _len, _ref, _results;
-
           if (a.length > b.length) {
             _ref = [b, a], a = _ref[0], b = _ref[1];
           }
@@ -159,7 +152,6 @@
 
       Facebook.prototype.requestPermission = function(scope, cb) {
         var _this = this;
-
         if (cb == null) {
           cb = this.cb;
         }
@@ -176,7 +168,6 @@
       Facebook.prototype.login = function(obj) {
         var onCancel, onLogin, scope, _ref,
           _this = this;
-
         scope = obj.scope != null ? obj.scope.trim() : '';
         onLogin = obj.onLogin != null ? obj.onLogin : function() {};
         onCancel = obj.onCancel != null ? obj.onCancel : function() {};
@@ -204,7 +195,6 @@
 
       Facebook.prototype.getLoginStatus = function(cb) {
         var _this = this;
-
         if (cb == null) {
           cb = this.cb;
         }
@@ -217,7 +207,6 @@
 
       Facebook.prototype.fbApi = function(query, cb) {
         var _this = this;
-
         if (cb == null) {
           cb = this.cb;
         }
@@ -234,17 +223,14 @@
 
       Facebook.prototype.getPermissions = function(cb) {
         var _this = this;
-
         if (cb == null) {
           cb = this.cb;
         }
         return this.fbApi('/me?fields=permissions', function(response) {
           var permission;
-
           if (response) {
             _this.grantedPermissions = (function() {
               var _results;
-
               _results = [];
               for (permission in response.permissions.data[0]) {
                 _results.push(permission);
@@ -261,7 +247,6 @@
       Facebook.prototype.getUserInfo = function(data, cb) {
         var fields,
           _this = this;
-
         if (cb == null) {
           cb = this.cb;
         }
@@ -282,13 +267,11 @@
       Facebook.prototype.requireUserInfo = function(data, cb) {
         var field, getInfo, requiredPermissions, requiredScope,
           _this = this;
-
         if (cb == null) {
           cb = this.cb;
         }
         requiredPermissions = (function() {
           var _i, _len, _results;
-
           _results = [];
           for (_i = 0, _len = data.length; _i < _len; _i++) {
             field = data[_i];
@@ -320,7 +303,6 @@
 
       Facebook.prototype.onReady = function(callback) {
         var _this = this;
-
         if (callback == null) {
           callback = this.cb;
         }
@@ -342,7 +324,6 @@
 
       Facebook.prototype.fbInit = function() {
         var _this = this;
-
         FB.init(this.config);
         this.fbReady = true;
         if (this.config.appId.trim().length === 0) {
@@ -377,7 +358,6 @@
       Facebook.prototype.fbiFrameInit = function() {
         var resizeInterval,
           _this = this;
-
         FB.Canvas.scrollTo(0, 0);
         FB.Canvas.setSize({
           width: 810,
@@ -393,7 +373,6 @@
 
       Facebook.prototype.injectFB = function() {
         var protocol, root;
-
         if (document.getElementById('facebook-jssdk')) {
           return;
         }
@@ -412,7 +391,6 @@
         }
         return this.onReady(function() {
           var cbStack, plugin, plugins, unrenderedCount, _i, _len, _results;
-
           if (document.querySelectorAll != null) {
             plugins = document.body.querySelectorAll('.fb-like:not([fb-xfbml-state=rendered])');
             unrenderedCount = plugins.length;
