@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Bower Facebook Demo</title>
 	
-	<script data-main="main" src="../components/requirejs/require.js"></script>
+	<script data-main="main" src="../lib/requirejs/require.js"></script>
 	<script>
 		requirejs.config({
 			baseUrl: "",
@@ -15,12 +15,9 @@
 				}
 			},
 			paths:{
-				'json' : '../components/requirejs-plugins/src/json',
-				'text' : '../components/requirejs-plugins/lib/text',
-				'domReady' : '../components/requirejs-domready/domReady',
+				'domReady' : '../lib/requirejs-domready/domReady',
 				'Facebook' : '../dist/Facebook',
-				'data' : '../dist/data.json',
-				'EventEmitter': '../components/EventEmitter/dist/EventEmitter'
+				'EventEmitter': '../lib/EventEmitter/dist/EventEmitter'
 			}
 		});
 	</script>

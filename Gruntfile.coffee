@@ -2,6 +2,10 @@ module.exports = (grunt) =>
 	grunt.initConfig
 		pkg: grunt.file.readJSON 'package.json'
 
+		bower:
+			install: {}
+
+
 		## Compile coffeescript
 		coffee:
 			compile:
@@ -21,14 +25,6 @@ module.exports = (grunt) =>
 						ext: '.js'
 					}
 				]
-
-		removelogging:
-			files:
-				expand: true
-				cwd: 'dist'
-				src: ['Facebook.min.js']
-				dest: 'dist'
-				ext: '.js'
 
 		markdown:
 			readmes:
@@ -71,11 +67,14 @@ module.exports = (grunt) =>
 	grunt.loadNpmTasks 'grunt-regarde'
 	grunt.loadNpmTasks 'grunt-contrib-connect'
 	grunt.loadNpmTasks 'grunt-exec'
+	grunt.loadNpmTasks 'grunt-bower-task'
 	
 	grunt.registerTask 'default', ['compile']
 	grunt.registerTask 'server', ['exec:server', 'exec:open', 'watch']
 	grunt.registerTask 'commit', ['default', 'git']
 	
+	grunt.registerTask 'travis', 'Travis build tasks', ['bower', 'coffee', 'markdown']
+
 	grunt.registerTask 'compile', 'Compile coffeescript and markdown', ['coffee', 'markdown']
 	grunt.registerTask 'watch', 'Watch coffee and markdown files for changes and recompile', () ->
 		## always use force when watching
