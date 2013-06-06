@@ -1,6 +1,6 @@
 {
   "name": "Facebook",
-  "version": "0.0.2",
+  "version": "0.0.3rc2",
   "main": "dist/Facebook.js",
   "dependencies": {
   	"EventEmitter" : "git://github.com/thomaswelton/bower-event-emitter.git"
