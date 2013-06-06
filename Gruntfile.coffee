@@ -37,7 +37,7 @@ module.exports = (grunt) =>
 					}
 				]
 
-		regarde:
+		watch:
 			markdown:
 				files: 'README.html'
 				tasks: 'markdown'
@@ -63,7 +63,7 @@ module.exports = (grunt) =>
 		
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
 	grunt.loadNpmTasks 'grunt-markdown'
-	grunt.loadNpmTasks 'grunt-regarde'
+	grunt.loadNpmTasks 'grunt-contrib-watch'
 	grunt.loadNpmTasks 'grunt-contrib-connect'
 	grunt.loadNpmTasks 'grunt-exec'
 	grunt.loadNpmTasks 'grunt-bower-task'
@@ -75,7 +75,3 @@ module.exports = (grunt) =>
 	grunt.registerTask 'travis', 'Travis build tasks', ['bower', 'coffee', 'markdown']
 
 	grunt.registerTask 'compile', 'Compile coffeescript and markdown', ['coffee', 'markdown']
-	grunt.registerTask 'watch', 'Watch coffee and markdown files for changes and recompile', () ->
-		## always use force when watching
-		grunt.option 'force', true
-		grunt.task.run ['regarde']
