@@ -68,7 +68,7 @@ module.exports = (grunt) =>
 	grunt.loadNpmTasks 'grunt-exec'
 	grunt.loadNpmTasks 'grunt-bower-task'
 	
-	grunt.registerTask 'default', ['compile']
+	grunt.registerTask 'default', ['bower' ,'compile']
 	grunt.registerTask 'server', ['exec:server', 'exec:open', 'watch']
 	grunt.registerTask 'commit', ['default', 'git']
 	
