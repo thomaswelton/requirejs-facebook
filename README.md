@@ -40,34 +40,109 @@ The Facebook SDK can be accessed directly via `Facebook.FB`
 Or can be access through helpers and wrappers
 
 
-## Helpers
 
-`Facebook.ui`
-FB onReady wrapper for the [FB.ui method](https://developers.facebook.com/docs/reference/javascript/FB.ui/)
+#### Facebook.getAppId()
 
-`Facebook.login`
-FB onReady wrapper for the [FB.login method](http://developers.facebook.com/docs/reference/javascript/FB.login/)
-It will also chech the login status of the user, so that calls to Facebook.login immeditaley execute the callback if the suer is logged in with triggering another FB.login call
+Returns the Facebook app ID, this would be the same as was passed in the config above, but is provided for convenience
 
-`Facebook.renderPlugins`
-Renders any XFBML plugins 
+#### Facebook.ui( data, cb = {} )
 
-`Facebook.getCanvasInfo`
-Wrapper for the [FB.Canvas.getPageInfo method](http://developers.facebook.com/docs/reference/javascript/FB.Canvas.getPageInfo/)
+- data - JSON data with UI information
+- cb - Callback (optional)
 
-`Facebook.setCanvasSize(width, height)`
-Wrapper for the [FB.Canvas.setSize method](http://developers.facebook.com/docs/reference/javascript/FB.Canvas.setSize/)
+Wait for Facebook init then calls FB.ui. The first parameter is JSON, examples here http://developers.facebook.com/docs/reference/javascript/FB.ui/
+
+```javascript
+{
+    method: 'feed',
+    name: 'Facebook Dialogs',
+    link: 'http://developers.facebook.com/docs/reference/dialogs/',
+    picture: 'http://fbrell.com/f8.jpg',
+    caption: 'Reference Documentation',
+    description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
+}
+```
+
+The second parameter is an optional callback fire on success or cancel of the UI
 
 
-## Events
+#### Facebook.logout()
 
-* onLike
-* onUnlike
-* fbInit
+Logs out a Facebook user
 
 
+#### Facebook.hasPermissions(str)
 
-v 0.0.1
+- str - Comma seperated string of permission
 
-Safari cookie fix
+Checks to see if the user has all the permissions passed. Returns `true` or `false`
 
+#### Facebook.requestPermission(scope, cb)
+
+- scope - String, comma seperated list of permissions to request
+- cb - Callback (optional)
+
+Will trigger a Facebook permissions popup http://developers.facebook.com/docs/reference/dialogs/oauth/ asking for the permissions passed in via `scope` calla an optinal callback on success or fail
+
+#### Facebook.login(obj)
+
+Logs in a Facebook user where obj is as follow
+
+```javascript
+{
+	scope: 'email',
+	onLogin: function(){},
+	onCancel: function(){}
+}
+```
+
+Logs in a user, requests the permissions from `obj.scope`. Or promopts user that already logged in to grant additional permissions. Or will call back immediaetly if the user was already loggedin and had granted all perms
+
+
+#### Facebook.getLoginStatus()
+
+Wrapper for http://developers.facebook.com/docs/reference/javascript/FB.getLoginStatus/
+
+#### Facebook.fbApi(query,cb)
+
+- query - (string) query to run against FB.api
+- cb - (function) callback function (optional)
+
+Calls FB.api on ready, and will `console.warn` you of any API errors
+
+
+#### Facebook.getUserInfo(data, cb)
+
+- data - (array) Array of fields to get user data for http://developers.facebook.com/docs/reference/api/user/
+- cb - (function) Callback (optional)
+
+Will try to get user information. You may not get all the information you requested for.
+
+#### Facebook.requireUserInfo(data, cb)
+
+- data - (array) Array of fields to get user data for http://developers.facebook.com/docs/reference/api/user/
+- cb - (function) Callback (optional)
+
+Same as above, but will prompt the user for permissions they have not already granted before trying to getUserInfo, becasue this triggers a pop up it should only be run after a user interaction to avoid pop up blockers
+
+
+#### Facebook.onReady(cb)
+
+- cb - (function) Calback to fire when Facebook is fullyloaded, is passed FB as an arg
+
+Useage
+
+```javascript
+Facebook.onReady(function(FB){
+	// FB is fully loaded
+});
+```
+
+
+#### Facebook.renderPlugins()
+
+Renders facebook social plugins
+
+#### Facebook.setCanvasSize(width, height)
+
+Sets the Facebook canvas dimensions
