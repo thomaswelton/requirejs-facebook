@@ -5,7 +5,7 @@ before_script:
 - npm install -g grunt-cli
 env:
   global: 
-    - secure: "mPyHSXa2QDSQuD8KvGGyCUPU5AViL4yY9XQVBn9DfTlRcZCHyZr02eYovZ3Q27mq88GD77sQ2sf+GaLMIEzURflF6SF9a4ud+4MWdq39RTfcdijs5AfTtibViT2Jc/r6zNBLqzzYT6yFMwpSBf1DPMfpbf6zyTe6qOOTdnTmvy8="
+    - secure: "h8HFOyVJa/iDN9txlJo3ks3amcpJnHGp9P75nOFCuYq8POheYTJq9FuLELg0\nGgDSuvwKQCIhygGnTb/obtzmiraVILxowlYegOEaJogss8LqwiOe3b0+SpJ8\nO7t43Qn7m0kqTQIQgSuWUtnbb31fxhnbFgRgwLLjXI8qU1qq//I="
 
 after_success:
   - gem install heroku
