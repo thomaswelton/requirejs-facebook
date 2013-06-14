@@ -1,4 +1,4 @@
-require ['Facebook', 'mootools', 'domReady!'], (Facebook) ->
+require ['Facebook', 'domReady!'], (Facebook) ->
 	console.log 'main init'
 
 	$('logout').addEvent 'click', (event) ->
