@@ -6,7 +6,6 @@
 
 AMD compatible Bower component written in CoffeeScript.
 
-
 ## Setup
 
 This module utilises requirejs module configuration. It requires the following JS to be added to the page
