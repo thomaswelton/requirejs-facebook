@@ -1,8 +1,7 @@
-.DS_Store
-/node_modules/
 /bower-facebook.sublime-project
 /bower-facebook.sublime-workspace
+.DS_Store
+/node_modules/
 /components/
-/dist-src/
-/src/*.js
-/lib/
+/demo/components/
+/demo/*.js

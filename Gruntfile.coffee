@@ -3,7 +3,9 @@ module.exports = (grunt) =>
 		pkg: grunt.file.readJSON 'package.json'
 
 		bower:
-			install: {}
+			install:
+				options:
+					targetDir: 'demo/components'
 
 
 		## Compile coffeescript
@@ -13,35 +15,20 @@ module.exports = (grunt) =>
 					{
 						expand: true
 						cwd: 'src'
-						src: ['Facebook.coffee']
-						dest: 'dist'
+						src: ['*.coffee']
+						dest: 'demo'
 						ext: '.js'
 					},
 					{
 						expand: true
 						cwd: 'src'
-						src: ['main.coffee']
-						dest: 'demo'
+						src: ['Facebook.coffee']
+						dest: 'dist'
 						ext: '.js'
 					}
 				]
 
-		markdown:
-			readmes:
-				files: [
-					{
-						expand: true
-						src: 'README.md'
-						dest: 'dist'
-						ext: '.html'
-					}
-				]
-
 		watch:
-			markdown:
-				files: 'README.html'
-				tasks: 'markdown'
-			
 			coffee:
 				files: ['src/**/*.coffee']
 				tasks: ['coffee','default']
@@ -51,7 +38,10 @@ module.exports = (grunt) =>
 				options:
 					keepalive: true
 					port: 9001
-					base: ''
+					base: 'demo'
+
+		nodeunit:
+			all: ['test/all.js']
 
 		exec:
 			server:
@@ -62,16 +52,17 @@ module.exports = (grunt) =>
 
 		
 	grunt.loadNpmTasks 'grunt-contrib-coffee'
-	grunt.loadNpmTasks 'grunt-markdown'
 	grunt.loadNpmTasks 'grunt-contrib-watch'
 	grunt.loadNpmTasks 'grunt-contrib-connect'
 	grunt.loadNpmTasks 'grunt-exec'
 	grunt.loadNpmTasks 'grunt-bower-task'
+	grunt.loadNpmTasks 'grunt-contrib-nodeunit'
 	
 	grunt.registerTask 'default', ['bower' ,'compile']
 	grunt.registerTask 'server', ['exec:server', 'exec:open', 'watch']
-	grunt.registerTask 'commit', ['default', 'git']
 	
-	grunt.registerTask 'travis', 'Travis build tasks', ['bower', 'coffee', 'markdown']
+	grunt.registerTask 'heroku', 'Heroku build tasks', [ 'default' ]
 
-	grunt.registerTask 'compile', 'Compile coffeescript and markdown', ['coffee', 'markdown']
+	grunt.registerTask 'tests', 'Travis tests', ['nodeunit']
+	
+	grunt.registerTask 'compile', 'Compile coffeescript', ['coffee']
