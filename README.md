@@ -146,3 +146,15 @@ Renders facebook social plugins
 #### Facebook.setCanvasSize(width, height)
 
 Sets the Facebook canvas dimensions
+
+
+## Deployment to Heroku
+
+Using travis we can run tests and deploy the latest code to Heroku
+Get your API key, install the travis gem and encrypt your API_KEY, update your .travis.yml with this new key.
+
+```
+heroku auth:token
+gem install travis
+travis encrypt HEROKU_API_KEY=<your_heroku_key>
+```
