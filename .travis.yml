@@ -1,22 +1,28 @@
+---
 language: node_js
 node_js:
 - '0.8'
 before_script:
 - npm install -g grunt-cli
-env:
-  global: 
-    - secure: "h8HFOyVJa/iDN9txlJo3ks3amcpJnHGp9P75nOFCuYq8POheYTJq9FuLELg0\nGgDSuvwKQCIhygGnTb/obtzmiraVILxowlYegOEaJogss8LqwiOe3b0+SpJ8\nO7t43Qn7m0kqTQIQgSuWUtnbb31fxhnbFgRgwLLjXI8qU1qq//I="
-
 after_success:
-  - gem install heroku
-  - if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then echo "This is a pull request. No deployment will be done."; exit 0; fi
-  - if [[ "$TRAVIS_BRANCH" != "master" ]]; then echo "Not the master branch. No deployment will be done."; exit 0; fi
-  - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
-  - git remote add heroku git@heroku.com:requirejs-facebook.git
-  - echo "Host heroku.com" >> ~/.ssh/config
-  - echo "   StrictHostKeyChecking no" >> ~/.ssh/config
-  - echo "   CheckHostIP no" >> ~/.ssh/config
-  - echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
-  - heroku keys:clear
-  - yes | heroku keys:add
-  - yes | git push heroku master --force
+- gem install heroku
+- if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then echo "This is a pull request. No
+  deployment will be done."; exit 0; fi
+- if [[ "$TRAVIS_BRANCH" != "master" ]]; then echo "Not the master branch. No deployment
+  will be done."; exit 0; fi
+- wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+- git remote add heroku git@heroku.com:requirejs-facebook.git
+- echo "Host heroku.com" >> ~/.ssh/config
+- echo "   StrictHostKeyChecking no" >> ~/.ssh/config
+- echo "   CheckHostIP no" >> ~/.ssh/config
+- echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
+- heroku keys:clear
+- yes | heroku keys:add
+- yes | git push heroku master --force
+env:
+  global:
+    secure: ! 'Dtk1zAIl4QVcfdhJjt8O/j9yPFK1FdPEKJGHE3dKmr6jT2HMcAW0HBxVveWT
+
+      Xcss0NwYsAu32hYRUU/kgZUGYApYxpH9hmz8agQ/f5KPuv/b4Z3xrM98pCQ0
+
+      6PaBeEzJMY+4PbU+D/HraNX550tM4g57rxo5aRJ6o4v8+bWxMNs='
