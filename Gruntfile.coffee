@@ -7,7 +7,6 @@ module.exports = (grunt) =>
 				options:
 					targetDir: 'demo/components'
 
-
 		## Compile coffeescript
 		coffee:
 			compile:
@@ -38,10 +37,13 @@ module.exports = (grunt) =>
 				options:
 					keepalive: true
 					port: 9001
-					base: 'demo'
+					base: ''
 
 		nodeunit:
 			all: ['test/all.js']
+
+		mocha:
+		  index: ['test/index.html']
 
 		exec:
 			server:
@@ -57,6 +59,7 @@ module.exports = (grunt) =>
 	grunt.loadNpmTasks 'grunt-exec'
 	grunt.loadNpmTasks 'grunt-bower-task'
 	grunt.loadNpmTasks 'grunt-contrib-nodeunit'
+	grunt.loadNpmTasks 'grunt-mocha'
 	
 	grunt.registerTask 'default', ['bower' ,'compile']
 	grunt.registerTask 'server', ['exec:server', 'exec:open', 'watch']

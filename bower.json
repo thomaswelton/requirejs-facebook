@@ -7,6 +7,9 @@
     , "requirejs": "git://github.com/jrburke/requirejs"
     , "requirejs-domready": "git://github.com/thomaswelton/domReady.git"
   }
+  , "devDependencies": {
+    "chai": "*"
+  }
   , "ignore": [
       "**/.*"
     , "node_modules"
