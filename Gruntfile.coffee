@@ -66,6 +66,6 @@ module.exports = (grunt) =>
 	
 	grunt.registerTask 'heroku', 'Heroku build tasks', [ 'default' ]
 
-	grunt.registerTask 'tests', 'Travis tests', ['nodeunit']
+	grunt.registerTask 'tests', 'Travis tests', ['nodeunit', 'mocha']
 	
 	grunt.registerTask 'compile', 'Compile coffeescript', ['coffee']
