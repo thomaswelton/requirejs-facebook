@@ -8,6 +8,9 @@ require ['Facebook', 'domReady!'], (Facebook) ->
 	$('logout').addEvent 'click', (event) ->
 		 Facebook.logout () -> console.log 'logged out'
 
+	$('uninstall').addEvent 'click', (event) ->
+		 Facebook.uninstallApp () -> console.log 'App uninstalled from user'
+
 	$$('[data-fb-login]').addEvent 'click', (event) ->
 		scope = this.getProperty 'data-fb-login'
 

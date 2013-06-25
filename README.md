@@ -69,6 +69,9 @@ The second parameter is an optional callback fire on success or cancel of the UI
 
 Logs out a Facebook user
 
+#### Facebook.uninstallApp()
+
+Removes the application from the users account
 
 #### Facebook.hasPermissions(str)
 

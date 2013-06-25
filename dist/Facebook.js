@@ -22,6 +22,7 @@
         this.getUserInfo = __bind(this.getUserInfo, this);
         this.getPermissions = __bind(this.getPermissions, this);
         this.fbApi = __bind(this.fbApi, this);
+        this.uninstallApp = __bind(this.uninstallApp, this);
         this.getLoginStatus = __bind(this.getLoginStatus, this);
         this.login = __bind(this.login, this);
         this.requestPermission = __bind(this.requestPermission, this);
@@ -214,6 +215,22 @@
           _this.loginStatus = loginStatus;
           console.log("Login Status:", _this.loginStatus);
           return cb(_this.loginStatus);
+        });
+      };
+
+      Facebook.prototype.uninstallApp = function(cb) {
+        var _this = this;
+        if (cb == null) {
+          cb = this.cb;
+        }
+        return this.onReady(function(FB) {
+          return FB.api('me/permissions', 'delete', function(response) {
+            if (response.error != null) {
+              console.warn(response.error.message, "query: delete me/permissions");
+              return cb(false);
+            }
+            return cb(response);
+          });
         });
       };
 

@@ -151,6 +151,15 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 				console.log "Login Status:", @loginStatus
 				cb @loginStatus
 
+		uninstallApp: (cb = @cb) =>
+			@onReady (FB) =>
+				FB.api 'me/permissions', 'delete', (response) =>
+					if response.error?
+						console.warn response.error.message, "query: delete me/permissions"
+						return cb false
+
+					cb response
+
 		fbApi: (query, cb = @cb) =>
 			@onReady (FB) =>
 				FB.api query, (response) =>
