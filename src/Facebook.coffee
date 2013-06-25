@@ -80,6 +80,15 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 
 		getAppId: () => @config.appId
 
+		getAccessToken: (cb = @cb) =>
+			@onReady (FB) => 
+				authResponse = FB.getAuthResponse()
+				if authResponse? and authResponse.accessToken?
+					return cb authResponse.accessToken
+				
+				return cb false
+
+
 		ui: (data, cb = @cb) =>
 			@onReady (FB) ->
 				FB.ui data, cb
