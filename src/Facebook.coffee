@@ -37,14 +37,7 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 			else
 				window.fbAsyncInit = @fbAsyncInit
 				@injectFB()
-			
-			## Facebook like tracking
-			@onReady (FB) =>
-				FB.Event.subscribe 'edge.create', (url) =>
-					@fireEvent 'onLike', url
 
-				FB.Event.subscribe 'edge.remove', (url) =>
-					@fireEvent 'onUnlike', url
 
 			###
 			Set a cookie for our domain using a pop up
@@ -247,6 +240,12 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 			FB.Event.subscribe 'auth.authResponseChange', (@loginStatus) =>
 				console.log 'FB.Event: auth.authResponseChange'
 				@fireEvent 'onAuthChange', (@loginStatus.status is 'connected')
+
+			FB.Event.subscribe 'edge.create', (url) =>
+				@fireEvent 'onLike', url
+
+			FB.Event.subscribe 'edge.remove', (url) =>
+				@fireEvent 'onUnlike', url
 
 		fbiFrameInit: () =>
 			FB.Canvas.scrollTo 0,0
