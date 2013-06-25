@@ -1,6 +1,10 @@
 require ['Facebook', 'domReady!'], (Facebook) ->
 	console.log 'main init'
 
+	Facebook.getAccessToken (token) ->
+		console.log "Your token is #{token}"
+
+
 	$('logout').addEvent 'click', (event) ->
 		 Facebook.logout () -> console.log 'logged out'
 
@@ -17,6 +21,10 @@ require ['Facebook', 'domReady!'], (Facebook) ->
 			console.log 'The user logged in'
 		else
 			console.log 'The user logged out'
+
+
+	Facebook.addEvent 'logout', () ->
+		console.log 'user logged out'
 
 
 	$$('form.permissions')[0].addEvent 'submit', (event) ->

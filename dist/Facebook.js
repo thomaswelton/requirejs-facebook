@@ -2,6 +2,7 @@
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   define(['module', 'EventEmitter'], function(module, EventEmitter) {
@@ -10,8 +11,7 @@
       __extends(Facebook, _super);
 
       function Facebook(permissionsMap, config) {
-        var channelUrl, defaults, key, setCookie, value, _ref,
-          _this = this;
+        var channelUrl, defaults, key, setCookie, value, _ref;
         this.permissionsMap = permissionsMap;
         this.config = config;
         this.fbiFrameInit = __bind(this.fbiFrameInit, this);
@@ -28,13 +28,18 @@
         this.hasPermissions = __bind(this.hasPermissions, this);
         this.logout = __bind(this.logout, this);
         this.ui = __bind(this.ui, this);
+        this.getAccessToken = __bind(this.getAccessToken, this);
         this.getAppId = __bind(this.getAppId, this);
         Facebook.__super__.constructor.call(this);
         if (this.config.appId == null) {
           console.warn('No Facebook app ID found in requirejs module config');
           return false;
         }
-        this.cb = function() {};
+        this.cb = function() {
+          var args;
+          args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+          return console.log.apply(console, ['No callback specifed for the data'].concat(__slice.call(args)));
+        };
         console.log('Facebook init');
         if (this.config.appId.trim().length === 0) {
           console.warn('No Facebook app ID found in config');
@@ -58,14 +63,6 @@
           window.fbAsyncInit = this.fbAsyncInit;
           this.injectFB();
         }
-        this.onReady(function(FB) {
-          FB.Event.subscribe('edge.create', function(url) {
-            return _this.fireEvent('onLike', url);
-          });
-          return FB.Event.subscribe('edge.remove', function(url) {
-            return _this.fireEvent('onUnlike', url);
-          });
-        });
         /*
         			Set a cookie for our domain using a pop up
         			window where required. Required when using
@@ -96,6 +93,21 @@
 
       Facebook.prototype.getAppId = function() {
         return this.config.appId;
+      };
+
+      Facebook.prototype.getAccessToken = function(cb) {
+        var _this = this;
+        if (cb == null) {
+          cb = this.cb;
+        }
+        return this.onReady(function(FB) {
+          var authResponse;
+          authResponse = FB.getAuthResponse();
+          if ((authResponse != null) && (authResponse.accessToken != null)) {
+            return cb(authResponse.accessToken);
+          }
+          return cb(false);
+        });
       };
 
       Facebook.prototype.ui = function(data, cb) {
@@ -343,15 +355,24 @@
           console.log('FB.Event: auth.login');
           return _this.fireEvent('onLogin');
         });
+        FB.Event.subscribe('auth.logout', function() {
+          return _this.fireEvent('onLogout');
+        });
         FB.Event.subscribe('auth.statusChange', function(loginStatus) {
           _this.loginStatus = loginStatus;
           console.log('FB.Event: auth.statusChange');
           return _this.fireEvent('onStatusChange');
         });
-        return FB.Event.subscribe('auth.authResponseChange', function(loginStatus) {
+        FB.Event.subscribe('auth.authResponseChange', function(loginStatus) {
           _this.loginStatus = loginStatus;
           console.log('FB.Event: auth.authResponseChange');
           return _this.fireEvent('onAuthChange', _this.loginStatus.status === 'connected');
+        });
+        FB.Event.subscribe('edge.create', function(url) {
+          return _this.fireEvent('onLike', url);
+        });
+        return FB.Event.subscribe('edge.remove', function(url) {
+          return _this.fireEvent('onUnlike', url);
         });
       };
 
