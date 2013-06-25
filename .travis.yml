@@ -16,13 +16,12 @@ after_success:
 - echo "   StrictHostKeyChecking no" >> ~/.ssh/config
 - echo "   CheckHostIP no" >> ~/.ssh/config
 - echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
-- heroku keys:clear
 - yes | heroku keys:add
 - yes | git push heroku master --force
 env:
   global:
-    secure: ! 'Dtk1zAIl4QVcfdhJjt8O/j9yPFK1FdPEKJGHE3dKmr6jT2HMcAW0HBxVveWT
+    secure: ! 'OI8LsXDYUBc/eFelwzXdtCZFJd1yleff9LxMa4K514JY1YPpfhJzIodFxR70
 
-      Xcss0NwYsAu32hYRUU/kgZUGYApYxpH9hmz8agQ/f5KPuv/b4Z3xrM98pCQ0
+      e2RltQdB28ysmb+VxgH4btFqg9yaiqVdJPpMDLDRcu1NGWPGHTHUQnkJs2Iw
 
-      6PaBeEzJMY+4PbU+D/HraNX550tM4g57rxo5aRJ6o4v8+bWxMNs='
+      QXUslB/Pq6jLEoKygDgMVVUWDmjmLjPAXZMaiujRAL8447qh1iM='
