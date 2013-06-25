@@ -11,7 +11,7 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 
 			## Used as a default for functions 
 			## That accept a callback
-			@cb = () ->
+			@cb = (args...) -> console.log 'No callback specifed for the data', args...
 
 			## Init Facebook
 			console.log 'Facebook init'
