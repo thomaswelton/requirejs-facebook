@@ -228,6 +228,9 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 				console.log 'FB.Event: auth.login'
 				@fireEvent 'onLogin'
 
+			FB.Event.subscribe 'auth.logout', () =>
+				@fireEvent 'onLogout'
+
 			FB.Event.subscribe 'auth.statusChange', (@loginStatus) =>
 				console.log 'FB.Event: auth.statusChange'
 				@fireEvent 'onStatusChange'
