@@ -144,6 +144,9 @@
         if (perms.trim().length === 0) {
           return true;
         }
+        if ((this.grantedPermissions == null) || this.grantedPermissions.length === 0) {
+          return false;
+        }
         permsArray = perms.split(',');
         intersection = function(a, b) {
           var value, _i, _len, _ref, _results;
@@ -179,22 +182,23 @@
       };
 
       Facebook.prototype.login = function(obj) {
-        var onCancel, onLogin, scope, _ref,
+        var onCancel, onLogin, scope,
           _this = this;
         scope = obj.scope != null ? obj.scope.trim() : '';
         onLogin = obj.onLogin != null ? obj.onLogin : function() {};
         onCancel = obj.onCancel != null ? obj.onCancel : function() {};
-        if ((((_ref = this.loginStatus) != null ? _ref.status : void 0) != null) && this.loginStatus.status === 'connected') {
-          if (this.hasPermissions(scope)) {
-            return onLogin(this.loginStatus.authResponse);
-          } else {
-            console.log('request', scope);
-            return this.requestPermission(scope, function(response) {
+        return this.onReady(function(FB) {
+          var _ref;
+          if ((((_ref = _this.loginStatus) != null ? _ref.status : void 0) != null) && _this.loginStatus.status === 'connected') {
+            if (_this.hasPermissions(scope)) {
               return onLogin(_this.loginStatus.authResponse);
-            });
-          }
-        } else {
-          return this.onReady(function(FB) {
+            } else {
+              console.log('request', scope);
+              return _this.requestPermission(scope, function(response) {
+                return onLogin(_this.loginStatus.authResponse);
+              });
+            }
+          } else {
             return FB.login(function(response) {
               if (response.authResponse) {
                 return onLogin(response.authResponse);
@@ -202,8 +206,8 @@
                 return onCancel();
               }
             }, scope);
-          });
-        }
+          }
+        });
       };
 
       Facebook.prototype.getLoginStatus = function(cb) {
@@ -314,20 +318,22 @@
         getInfo = function() {
           return _this.getUserInfo(data, cb);
         };
-        if (this.loginStatus.status !== 'connected') {
-          return this.login({
-            scope: requiredScope,
-            onLogin: function() {
-              return _this.getPermissions(getInfo);
-            }
-          });
-        } else {
-          if (this.hasPermissions(requiredScope)) {
-            return getInfo();
+        return this.onReady(function(FB) {
+          if (_this.loginStatus.status !== 'connected') {
+            return _this.login({
+              scope: requiredScope,
+              onLogin: function() {
+                return _this.getPermissions(getInfo);
+              }
+            });
           } else {
-            return this.requestPermission(requiredScope, getInfo);
+            if (_this.hasPermissions(requiredScope)) {
+              return getInfo();
+            } else {
+              return _this.requestPermission(requiredScope, getInfo);
+            }
           }
-        }
+        });
       };
 
       Facebook.prototype.onReady = function(callback) {

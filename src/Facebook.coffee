@@ -98,6 +98,7 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 
 		hasPermissions: (perms) =>
 			return true if perms.trim().length is 0
+			return false if !@grantedPermissions? or @grantedPermissions.length is 0
 
 			permsArray = perms.split(',')
 
@@ -123,22 +124,22 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 			onLogin = if obj.onLogin? then obj.onLogin else () ->
 			onCancel = if obj.onCancel? then obj.onCancel else () ->
 
-			## If already logged
-			if @loginStatus?.status? and @loginStatus.status is 'connected'
-				## Check the user has granted all perms in scope
-				if @hasPermissions scope
-					## Granted all required perms, callback
-					onLogin @loginStatus.authResponse
-				else
-					## Prompt for required perms
-					console.log 'request', scope
-
-					@requestPermission scope, (response) =>
-						## User may not have granted all perms
+			@onReady (FB) =>
+				## If already logged
+				if @loginStatus?.status? and @loginStatus.status is 'connected'
+					## Check the user has granted all perms in scope
+					if @hasPermissions scope
+						## Granted all required perms, callback
 						onLogin @loginStatus.authResponse
-			else
-				## Login the user
-				@onReady (FB) ->
+					else
+						## Prompt for required perms
+						console.log 'request', scope
+
+						@requestPermission scope, (response) =>
+							## User may not have granted all perms
+							onLogin @loginStatus.authResponse
+				else
+					## Login the user
 					FB.login (response) ->
 						if response.authResponse
 							onLogin response.authResponse
@@ -200,16 +201,17 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 
 			getInfo = () => @getUserInfo data, cb
 
-			if @loginStatus.status isnt 'connected'
-				@login 
-					scope: requiredScope
-					onLogin: () =>
-						@getPermissions getInfo
-			else
-				if @hasPermissions requiredScope
-					getInfo()
+			@onReady (FB) =>
+				if @loginStatus.status isnt 'connected'
+					@login 
+						scope: requiredScope
+						onLogin: () =>
+							@getPermissions getInfo
 				else
-					@requestPermission requiredScope, getInfo
+					if @hasPermissions requiredScope
+						getInfo()
+					else
+						@requestPermission requiredScope, getInfo
 				
 
 		onReady: (callback = @cb) =>
