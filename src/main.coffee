@@ -42,8 +42,7 @@ require ['Facebook', 'domReady!'], (Facebook) ->
 
 		## Use the fields array to get data from Facebook
 		Facebook.requireUserInfo requestedFields, (response) ->
-			console.log response
-			resultsOutput.innerText = JSON.encode response
+			resultsOutput.innerText = JSON.stringify response, null, 2
 
 
 
