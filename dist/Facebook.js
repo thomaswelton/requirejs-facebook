@@ -205,7 +205,9 @@
               } else {
                 return onCancel();
               }
-            }, scope);
+            }, {
+              scope: scope
+            });
           }
         });
       };

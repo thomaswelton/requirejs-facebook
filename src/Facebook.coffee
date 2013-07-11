@@ -145,7 +145,7 @@ define ['module', 'EventEmitter'], (module, EventEmitter) ->
 							onLogin response.authResponse
 						else 
 							onCancel()
-					, scope
+					, { scope : scope }
 
 		getLoginStatus: (cb = @cb) =>
 			FB.getLoginStatus (@loginStatus) =>
