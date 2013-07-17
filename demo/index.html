@@ -4,7 +4,6 @@
 	<meta charset="UTF-8">
 	<title>Bower Facebook Demo</title>
 	
-	<script src="//ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
 	<script data-main="main" src="components/requirejs/require.js"></script>
 	<script>
 		requirejs.config({
@@ -18,7 +17,8 @@
 			paths:{
 				'domReady' : 'components/requirejs-domready/domReady',
 				'EventEmitter': 'components/EventEmitter/dist/EventEmitter',
-				'Facebook' : 'Facebook'
+				'Facebook' : 'Facebook',
+				'mootools' : '//ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed'
 			}
 		});
 	</script>

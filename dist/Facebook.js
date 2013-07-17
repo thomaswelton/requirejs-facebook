@@ -5,7 +5,7 @@
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  define(['module', 'EventEmitter'], function(module, EventEmitter) {
+  define(['module', 'EventEmitter', 'mootools'], function(module, EventEmitter) {
     var Facebook, permissionsMap;
     Facebook = (function(_super) {
       __extends(Facebook, _super);

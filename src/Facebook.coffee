@@ -1,4 +1,4 @@
-define ['module', 'EventEmitter'], (module, EventEmitter) ->
+define ['module', 'EventEmitter', 'mootools'], (module, EventEmitter) ->
 	class Facebook extends EventEmitter
 		constructor: (@permissionsMap, @config) ->
 			## Init EventEmitter
