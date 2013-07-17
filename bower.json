@@ -1,11 +1,11 @@
 {
     "name": "Facebook"
-  , "version": "0.0.3"
+  , "version": "0.0.4"
   , "main": "dist/Facebook.js"
   , "dependencies": {
   	  "EventEmitter" : "git://github.com/thomaswelton/bower-event-emitter.git"
-    , "requirejs": "git://github.com/jrburke/requirejs"
-    , "requirejs-domready": "git://github.com/thomaswelton/domReady.git"
+    , "requirejs": "2.1.*"
+    , "requirejs-domready": "2.0.*"
   }
   , "ignore": [
       "**/.*"
