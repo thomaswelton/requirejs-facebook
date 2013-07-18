@@ -488,6 +488,12 @@
         });
       };
 
+      Facebook.prototype.scrollTo = function(x, y) {
+        return this.onReady(function(FB) {
+          return FB.Canvas.scrollTo(x, y);
+        });
+      };
+
       return Facebook;
 
     })(EventEmitter);

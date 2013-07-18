@@ -262,11 +262,11 @@ define ['module', 'EventEmitter', 'mootools'], (module, EventEmitter) ->
 			FB.Canvas.scrollTo 0,0
 			FB.Canvas.setSize
 				width: 810
-				height: document.body.offsetHeight
+				height: document.documentElement.offsetHeight
 			
 			if @config.autoResize? and @config.autoResize
 				resizeInterval = () =>
-					@setCanvasSize 810, document.body.offsetHeight	
+					@setCanvasSize 810, document.documentElement.offsetHeight
 
 				window.setInterval resizeInterval, 500
 
@@ -319,6 +319,10 @@ define ['module', 'EventEmitter', 'mootools'], (module, EventEmitter) ->
 				FB.Canvas.setSize
 					width: width
 					height: height
+
+		scrollTo: (x,y)->
+			@onReady (FB) ->
+				FB.Canvas.scrollTo x, y
 		
 	
 	permissionsMap =
