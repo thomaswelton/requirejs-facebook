@@ -407,11 +407,11 @@
         FB.Canvas.scrollTo(0, 0);
         FB.Canvas.setSize({
           width: 810,
-          height: document.body.offsetHeight
+          height: document.documentElement.offsetHeight
         });
         if ((this.config.autoResize != null) && this.config.autoResize) {
           resizeInterval = function() {
-            return _this.setCanvasSize(810, document.body.offsetHeight);
+            return _this.setCanvasSize(810, document.documentElement.offsetHeight);
           };
           return window.setInterval(resizeInterval, 500);
         }
