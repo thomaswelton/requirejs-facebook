@@ -16,7 +16,7 @@ define ['module', 'EventEmitter', 'mootools'], (module, EventEmitter) ->
 			## Init Facebook
 			console.log 'Facebook init'
 
-			if @config.appId.trim().length is 0
+			if @config.appId.toString().trim().length is 0
 				console.warn 'No Facebook app ID found in config'
 
 			defaults = 

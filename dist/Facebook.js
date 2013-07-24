@@ -42,7 +42,7 @@
           return console.log.apply(console, ['No callback specifed for the data'].concat(__slice.call(args)));
         };
         console.log('Facebook init');
-        if (this.config.appId.trim().length === 0) {
+        if (this.config.appId.toString().trim().length === 0) {
           console.warn('No Facebook app ID found in config');
         }
         defaults = {
