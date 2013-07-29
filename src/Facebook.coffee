@@ -229,7 +229,7 @@ define ['module', 'EventEmitter', 'mootools'], (module, EventEmitter) ->
 			FB.init @config
 			@fbReady = true
 
-			return if @config.appId.trim().length is 0
+			return if @config.appId.toString().trim().length is 0
 
 			@getLoginStatus (loginStatus) =>
 				if loginStatus.status is 'connected'
