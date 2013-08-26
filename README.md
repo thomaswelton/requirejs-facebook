@@ -2,6 +2,7 @@
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/917637450c836ec0373668c8df3c3d06 "githalytics.com")](http://githalytics.com/thomaswelton/requirejs-facebook)
 [![Build Status](https://travis-ci.org/thomaswelton/requirejs-facebook.png)](https://travis-ci.org/thomaswelton/requirejs-facebook)
 [![Dependency Status](https://david-dm.org/thomaswelton/requirejs-facebook.png)](https://david-dm.org/thomaswelton/requirejs-facebook)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/thomaswelton/requirejs-facebook/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 
 AMD compatible Bower component written in CoffeeScript.
