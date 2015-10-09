@@ -126,7 +126,7 @@ Will try to get user information. You may not get all the information you reques
 - data - (array) Array of fields to get user data for http://developers.facebook.com/docs/reference/api/user/
 - cb - (function) Callback (optional)
 
-Same as above, but will prompt the user for permissions they have not already granted before trying to getUserInfo, becasue this triggers a pop up it should only be run after a user interaction to avoid pop up blockers
+Same as above, but will prompt the user for permissions they have not already granted before trying to getUserInfo, because this triggers a pop up it should only be run after a user interaction to avoid pop up blockers
 
 
 #### Facebook.onReady(cb)
